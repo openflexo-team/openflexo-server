@@ -1,0 +1,1 @@
+import{nM as r,uM as e,k as t,nN as n,cy as a,jA as c}from"./index-e8d740ba.js";import{a as s}from"./snippetsService-69c12ab2.js";import"./languageService-96e25f8d.js";n(async i=>{i.get(a).when(2).then(()=>{c.get(e)})});function v(){return{...r(),[e.toString()]:new t(s)}}export{v as default};

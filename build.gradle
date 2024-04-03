@@ -1,0 +1,12 @@
+buildscript {
+    repositories {
+        maven { url uri('https://maven.openflexo.org/artifactory/openflexo-deps/') }
+    }
+    dependencies {
+        classpath group: 'org.openflexo', name: 'buildplugin', version: '0.3'
+        classpath group: 'org.openflexo', name: 'buildconfig', version: '2.99'
+    }
+}
+
+version = "2.99"
+apply plugin: 'org.openflexo.buildconfig'

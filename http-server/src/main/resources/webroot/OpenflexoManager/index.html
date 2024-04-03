@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html class="dark-layout loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
+    <title>Openflexo Manager</title>
+    <link rel="apple-touch-icon" href="/OpenflexoManager/assets/images/ico/apple-icon-120.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/OpenflexoManager/assets/images/ico/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,3000,4000,5000,6001,4001,5001,600" rel="stylesheet">
+
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="/OpenflexoManager/assets/fonts/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/css/extensions/jstree.min.css">
+    <!-- END: Vendor CSS-->
+
+    <!-- BEGIN: Theme CSS-->
+    <link rel="stylesheet" type="text/css" href="/OpenflexoManager/assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/OpenflexoManager/assets/css/bootstrap-extended.css">
+    <link rel="stylesheet" type="text/css" href="/OpenflexoManager/assets/css/colors.css">
+    <link rel="stylesheet" type="text/css" href="/OpenflexoManager/assets/css/components.css">
+    <link rel="stylesheet" type="text/css" href="/OpenflexoManager/assets/css/themes/dark-layout.css">
+    <link rel="stylesheet" type="text/css" href="/OpenflexoManager/assets/css/themes/bordered-layout.css">
+    <link rel="stylesheet" type="text/css" href="/OpenflexoManager/assets/css/themes/semi-dark-layout.css">
+
+    <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="/OpenflexoManager/assets/css/core/menu/menu-types/horizontal-menu.css">
+    <link rel="stylesheet" type="text/css" href="/OpenflexoManager/assets/css/plugins/extensions/ext-component-tree.css">
+    <link rel="stylesheet" type="text/css" href="/OpenflexoManager/assets/css/pages/app-file-manager.css">
+    <!-- END: Page CSS-->
+</head>
+<!-- END: Head-->
+
+<!-- BEGIN: Body-->
+<body class="horizontal-layout horizontal-menu content-left-sidebar navbar-floating footer-static  " data-open="hover" data-menu="horizontal-menu" data-col="content-left-sidebar">
+    <!-- BEGIN: Content-->
+    <div class="app-content content file-manager-application">
+        <div class="content-area-wrapper container-xxl p-0">
+            <div class="sidebar-left">
+                <div class="sidebar">
+                    <div class="sidebar-file-manager">
+                        <div class="sidebar-inner">
+                            <!-- sidebar menu links starts -->
+                            <!-- add file button -->
+                            <div class="dropdown dropdown-actions">
+                                <button class="btn btn-primary add-file-btn text-center w-100" type="button" id="addNewFile" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="align-middle">Add New</span>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="addNewFile">
+                                    <div class="dropdown-item" data-bs-toggle="modal" data-bs-target="#new-resource-center-modal">
+                                        <div class="mb-0">
+                                            <i data-feather="database" class="me-25"></i>
+                                            <span class="align-middle">Resource Center</span>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-item" data-bs-toggle="modal" data-bs-target="#new-project-modal">
+                                        <div class="mb-0">
+                                            <i data-feather="upload-cloud" class="me-25"></i>
+                                            <span class="align-middle">Project</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- add file button ends -->
+
+                            <!-- sidebar list items starts  -->
+                            <div class="sidebar-list">
+                                <!-- links for file manager sidebar -->
+                                <div class="list-group">
+                                    <div class="projects-tree"></div>
+                                    <div class="flexo-projects-sidebar"></div>
+                                </div>
+<!--                                <div class="list-group list-group-labels">-->
+<!--                                    <h6 class="section-label px-2 mb-1">Labels</h6>-->
+<!--                                    <a href="#" class="list-group-item list-group-item-action">-->
+<!--                                        <i data-feather="file-text" class="me-50 font-medium-3"></i>-->
+<!--                                        <span class="align-middle">Documents</span>-->
+<!--                                    </a>-->
+<!--                                </div>-->
+<!--                                &lt;!&ndash; links for file manager sidebar ends &ndash;&gt;-->
+
+                                <!-- storage status of file manager starts-->
+                                <div class="storage-status mb-2 px-2 position-absolute bottom-0 mt-4">
+                                    <h6 class="section-label mb-1">Storage Status</h6>
+                                    <div class="d-flex align-items-center cursor-pointer">
+                                        <i data-feather="server" class="font-large-1"></i>
+                                        <div class="file-manager-progress ms-1">
+                                            <span>68GB used of 100GB</span>
+                                            <div class="progress progress-bar-primary my-50" style="height: 6px">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="80" aria-valuemax="100" style="width: 80%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- storage status of file manager ends-->
+                            </div>
+                            <!-- side bar list items ends  -->
+                            <!-- sidebar menu links ends -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-right">
+                <div class="content-wrapper container-xxl p-0">
+                    <div class="content-header row">
+                    </div>
+                    <div class="content-body">
+                        <!-- overlay container -->
+                        <div class="body-content-overlay"></div>
+
+                        <!-- file manager app content starts -->
+                        <div class="file-manager-main-content">
+                            <!-- search area start -->
+                            <div class="file-manager-content-header d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <div class="sidebar-toggle d-block d-xl-none float-start align-middle ms-1">
+                                        <i data-feather="menu" class="font-medium-5"></i>
+                                    </div>
+                                    <div class="input-group input-group-merge shadow-none m-0 flex-grow-1">
+                                        <span class="input-group-text border-0">
+                                            <i data-feather="search"></i>
+                                        </span>
+                                        <input type="text" class="form-control files-filter border-0 bg-transparent" placeholder="Search" />
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="file-actions">
+                                        <i data-feather="arrow-down-circle" class="font-medium-2 cursor-pointer d-sm-inline-block d-none me-50"></i>
+                                        <i data-feather="trash" class="font-medium-2 cursor-pointer d-sm-inline-block d-none me-50"></i>
+                                        <i data-feather="alert-circle" class="font-medium-2 cursor-pointer d-sm-inline-block d-none" data-bs-toggle="modal" data-bs-target="#app-file-manager-info-sidebar"></i>
+                                        <div class="dropdown d-inline-block">
+                                            <i class="font-medium-2 cursor-pointer" data-feather="more-vertical" role="button" id="fileActions" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            </i>
+                                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="fileActions">
+                                                <a class="dropdown-item" href="#">
+                                                    <i data-feather="move" class="cursor-pointer me-50"></i>
+                                                    <span class="align-middle">Open with</span>
+                                                </a>
+                                                <a class="dropdown-item d-sm-none d-block" href="#" data-bs-toggle="modal" data-bs-target="#app-file-manager-info-sidebar">
+                                                    <i data-feather="alert-circle" class="cursor-pointer me-50"></i>
+                                                    <span class="align-middle">More Options</span>
+                                                </a>
+                                                <a class="dropdown-item d-sm-none d-block" href="#">
+                                                    <i data-feather="trash" class="cursor-pointer me-50"></i>
+                                                    <span class="align-middle">Delete</span>
+                                                </a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#">
+                                                    <i data-feather="plus" class="cursor-pointer me-50"></i>
+                                                    <span class="align-middle">Add shortcut</span>
+                                                </a>
+                                                <a class="dropdown-item" href="#">
+                                                    <i data-feather="folder-plus" class="cursor-pointer me-50"></i>
+                                                    <span class="align-middle">Move to</span>
+                                                </a>
+                                                <a class="dropdown-item" href="#">
+                                                    <i data-feather="star" class="cursor-pointer me-50"></i>
+                                                    <span class="align-middle">Add to starred</span>
+                                                </a>
+                                                <a class="dropdown-item" href="#">
+                                                    <i data-feather="droplet" class="cursor-pointer me-50"></i>
+                                                    <span class="align-middle">Change color</span>
+                                                </a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#">
+                                                    <i data-feather="download" class="cursor-pointer me-50"></i>
+                                                    <span class="align-middle">Download</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- search area ends here -->
+
+                            <div class="file-manager-content-body">
+                                <!-- drives area starts-->
+                                <div class="drives">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h6 class="files-section-title mb-75">Resource Centers</h6>
+                                        </div>
+                                        <div class="flexo-resource-centers row"></div>
+                                    </div>
+                                </div>
+                                <!-- drives area ends-->
+                                <hr>
+                                <!-- Folders Container Starts -->
+                                <div class="view-container">
+                                    <h6 class="files-section-title mt-25 mb-75">Projects</h6>
+                                    <div class="files-header">
+                                        <h6 class="fw-bold mb-0">Filename</h6>
+                                        <div>
+                                            <h6 class="fw-bold file-item-size d-inline-block mb-0">Size</h6>
+                                            <h6 class="fw-bold file-last-modified d-inline-block mb-0">Last modified</h6>
+                                            <h6 class="fw-bold d-inline-block me-1 mb-0">Actions</h6>
+                                        </div>
+                                    </div>
+                                    <div class="card file-manager-item folder level-up">
+                                        <div class="card-img-top file-logo-wrapper">
+                                            <div class="d-flex align-items-center justify-content-center w-100">
+                                                <i data-feather="arrow-up"></i>
+                                            </div>
+                                        </div>
+                                        <div class="card-body ps-2 pt-0 pb-1">
+                                            <div class="content-wrapper">
+                                                <p class="card-text file-name mb-0">...</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flexo-projects w-100 d-flex flex-wrap"></div>
+                                    <div class="d-none flex-grow-1 align-items-center no-result mb-3">
+                                        <i data-feather="alert-circle" class="me-50"></i>
+                                        No Results
+                                    </div>
+                                </div>
+                                <!-- /Folders Container Ends -->
+                                <hr>
+                                <!-- Files Container Starts -->
+                                <div class="view-container">
+                                    <h6 class="files-section-title mt-2 mb-75 flexo-resources">Resources</h6>
+
+                                    <div class="d-none flex-grow-1 align-items-center no-result mb-3">
+                                        <i data-feather="alert-circle" class="me-50"></i>
+                                        No Results
+                                    </div>
+
+                                </div>
+                                <!-- /Files Container Ends -->
+                            </div>
+                        </div>
+                        <!-- file manager app content ends -->
+
+                        <!-- File Info Sidebar Starts-->
+                        <div class="modal modal-slide-in fade show" id="app-file-manager-info-sidebar">
+                            <div class="modal-dialog sidebar-lg">
+                                <div class="modal-content p-0">
+                                    <div class="modal-header d-flex align-items-center justify-content-between mb-1 p-2">
+                                        <h5 class="modal-title">menu.js</h5>
+                                        <div>
+                                            <i data-feather="trash" class="cursor-pointer me-50" data-bs-dismiss="modal"></i>
+                                            <i data-feather="x" class="cursor-pointer" data-bs-dismiss="modal"></i>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body flex-grow-1 pb-sm-0 pb-1">
+                                        <ul class="nav nav-tabs tabs-line" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" data-bs-toggle="tab" href="#details-tab" role="tab" aria-controls="details-tab" aria-selected="true">
+                                                    <i data-feather="file"></i>
+                                                    <span class="align-middle ms-25">Details</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-bs-toggle="tab" href="#activity-tab" role="tab" aria-controls="activity-tab" aria-selected="true">
+                                                    <i data-feather="activity"></i>
+                                                    <span class="align-middle ms-25">Activity</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content" id="myTabContent">
+                                            <div class="tab-pane fade show active" id="details-tab" role="tabpanel" aria-labelledby="details-tab">
+                                                <div class="d-flex flex-column justify-content-center align-items-center py-5">
+                                                    <img src="/OpenflexoManager/assets/images/icons/js.png" alt="file-icon" height="64" />
+                                                    <p class="mb-0 mt-1">54kb</p>
+                                                </div>
+                                                <h6 class="file-manager-title my-2">Settings</h6>
+                                                <ul class="list-unstyled">
+                                                    <li class="d-flex justify-content-between align-items-center mb-1">
+                                                        <span>File Sharing</span>
+                                                        <div class="form-check form-switch">
+                                                            <input type="checkbox" class="form-check-input" id="sharing" />
+                                                            <label class="form-check-label" for="sharing"></label>
+                                                        </div>
+                                                    </li>
+                                                    <li class="d-flex justify-content-between align-items-center mb-1">
+                                                        <span>Synchronization</span>
+                                                        <div class="form-check form-switch">
+                                                            <input type="checkbox" class="form-check-input" checked id="sync" />
+                                                            <label class="form-check-label" for="sync"></label>
+                                                        </div>
+                                                    </li>
+                                                    <li class="d-flex justify-content-between align-items-center mb-1">
+                                                        <span>Backup</span>
+                                                        <div class="form-check form-switch">
+                                                            <input type="checkbox" class="form-check-input" id="backup" />
+                                                            <label class="form-check-label" for="backup"></label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <hr class="my-2" />
+                                                <h6 class="file-manager-title my-2">Info</h6>
+                                                <ul class="list-unstyled">
+                                                    <li class="d-flex justify-content-between align-items-center">
+                                                        <p>Type</p>
+                                                        <p class="fw-bold">JS</p>
+                                                    </li>
+                                                    <li class="d-flex justify-content-between align-items-center">
+                                                        <p>Size</p>
+                                                        <p class="fw-bold">54kb</p>
+                                                    </li>
+                                                    <li class="d-flex justify-content-between align-items-center">
+                                                        <p>Location</p>
+                                                        <p class="fw-bold">Files > Documents</p>
+                                                    </li>
+                                                    <li class="d-flex justify-content-between align-items-center">
+                                                        <p>Owner</p>
+                                                        <p class="fw-bold">Sheldon Cooper</p>
+                                                    </li>
+                                                    <li class="d-flex justify-content-between align-items-center">
+                                                        <p>Modified</p>
+                                                        <p class="fw-bold">12th Aug, 2020</p>
+                                                    </li>
+
+                                                    <li class="d-flex justify-content-between align-items-center">
+                                                        <p>Created</p>
+                                                        <p class="fw-bold">01 Oct, 2019</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="tab-pane fade" id="activity-tab" role="tabpanel" aria-labelledby="activity-tab">
+                                                <h6 class="file-manager-title my-2">Today</h6>
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <div class="avatar avatar-sm me-50">
+                                                        <img src="/OpenflexoManager/assets/images/avatars/5-small.png" alt="avatar" width="28" />
+                                                    </div>
+                                                    <div class="more-info">
+                                                        <p class="mb-0">
+                                                            <span class="fw-bold">Mae</span>
+                                                            shared the file with
+                                                            <span class="fw-bold">Howard</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar avatar-sm bg-light-primary me-50">
+                                                        <span class="avatar-content">SC</span>
+                                                    </div>
+                                                    <div class="more-info">
+                                                        <p class="mb-0">
+                                                            <span class="fw-bold">Sheldon</span>
+                                                            updated the file
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <h6 class="file-manager-title mt-3 mb-2">Yesterday</h6>
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <div class="avatar avatar-sm bg-light-success me-50">
+                                                        <span class="avatar-content">LH</span>
+                                                    </div>
+                                                    <div class="more-info">
+                                                        <p class="mb-0">
+                                                            <span class="fw-bold">Leonard</span>
+                                                            renamed this file to
+                                                            <span class="fw-bold">menu.js</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar avatar-sm me-50">
+                                                        <img src="/OpenflexoManager/assets/images/portrait/small/avatar-s-1.jpg" alt="Avatar" width="28" />
+                                                    </div>
+                                                    <div class="more-info">
+                                                        <p class="mb-0">
+                                                            <span class="fw-bold">You</span>
+                                                            shared this file with Leonard
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <h6 class="file-manager-title mt-3 mb-2">3 days ago</h6>
+                                                <div class="d-flex align-items-start">
+                                                    <div class="avatar avatar-sm me-50">
+                                                        <img src="/OpenflexoManager/assets/images/portrait/small/avatar-s-1.jpg" alt="Avatar" width="28" />
+                                                    </div>
+                                                    <div class="more-info">
+                                                        <p class="mb-50">
+                                                            <span class="fw-bold">You</span>
+                                                            uploaded this file
+                                                        </p>
+                                                        <img src="/OpenflexoManager/assets/images/icons/js.png" alt="Avatar" class="me-50" height="24" />
+                                                        <span class="fw-bold">app.js</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- File Info Sidebar Ends -->
+
+                        <!-- File Dropdown Starts-->
+                        <div class="dropdown-menu dropdown-menu-end file-dropdown">
+                            <a class="dropdown-item" href="#">
+                                <i data-feather="eye" class="align-middle me-50"></i>
+                                <span class="align-middle">Preview</span>
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i data-feather="user-plus" class="align-middle me-50"></i>
+                                <span class="align-middle">Share</span>
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i data-feather="copy" class="align-middle me-50"></i>
+                                <span class="align-middle">Make a copy</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">
+                                <i data-feather="edit" class="align-middle me-50"></i>
+                                <span class="align-middle">Rename</span>
+                            </a>
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#app-file-manager-info-sidebar">
+                                <i data-feather="info" class="align-middle me-50"></i>
+                                <span class="align-middle">Info</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">
+                                <i data-feather="trash" class="align-middle me-50"></i>
+                                <span class="align-middle">Delete</span>
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i data-feather="alert-circle" class="align-middle me-50"></i>
+                                <span class="align-middle">Report</span>
+                            </a>
+                        </div>
+                        <!-- /File Dropdown Ends -->
+
+                        <!-- Create Resource center Modal Starts-->
+                        <div class="modal fade" id="new-resource-center-modal">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">New Resource Center</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" name="rc_path" id="rc_path" value="resource_center/" class="form-control" placeholder="Resource center path" required/>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary me-1" data-bs-dismiss="modal" onclick="handleCreateResourceCenter()">Create</button>
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Create Resource Center Modal Ends -->
+
+
+                        <!-- Create New Project Modal Starts-->
+                        <div class="modal fade" id="new-project-modal">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">New Project</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" name="rc_id" id="rc_id" class="form-control" />
+                                        <input type="text" name="prj_name" id="prj_name" class="form-control" placeholder="Project name" required/>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary me-1" data-bs-dismiss="modal" onclick="handleCreateProject()">Create</button>
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Create New Project Modal Ends -->
+
+                        <!-- Create New Project Modal Starts-->
+                        <div class="modal fade" id="new-virtual-model-modal">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">New Virtual Model</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" name="project_id" id="project_id" class="form-control" />
+
+                                        <input type="text" name="vm_name" id="vm_name" class="form-control" placeholder="Virtual Model name" required/>
+
+                                        <br>
+
+                                        <select class="form-select" name="visibility" id="visibility" aria-label="Default select example">
+                                            <option selected="">Select visibility</option>
+                                            <option value="public">Public</option>
+                                            <option value="protected">Protected</option>
+                                            <option value="private">Private</option>
+                                            <option value="default">Default</option>
+                                        </select>
+
+                                        <br>
+
+                                        <input class="form-check-input" type="checkbox" value="" id="is_abstract">
+
+                                        <label class="form-check-label" for="is_abstract">
+                                            Is abstract
+                                        </label>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary me-1" data-bs-dismiss="modal" onclick="handleCreateVirtualModel()">Create</button>
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Create New Project Modal Ends -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Content-->
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <!-- BEGIN: Vendor JS-->
+    <script src="/assets/vendors/js/vendors.min.js"></script>
+    <!-- BEGIN Vendor JS-->
+
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="/assets/vendors/js/ui/jquery.sticky.js"></script>
+    <script src="/assets/vendors/js/extensions/jstree.min.js"></script>
+    <!-- END: Page Vendor JS-->
+
+    <!-- BEGIN: Theme JS-->
+    <script src="/OpenflexoManager/assets/js/core/app-menu.js"></script>
+    <script src="/OpenflexoManager/assets/js/core/app.js"></script>
+    <!-- END: Theme JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script src="/OpenflexoManager/assets/js/scripts/pages/app-file-manager.js"></script>
+    <!-- END: Page JS-->
+
+    <script>
+        $(window).on('load', function() {
+            if (feather) {
+                feather.replace({
+                    width: 14,
+                    height: 14
+                })
+            }
+        })
+    </script>
+    <script type="text/javascript">
+        var projects = []
+
+        const loadProjectsTree = () => {
+            $(".projects-tree").jstree("destroy")
+
+            projects.map(x => {
+                fetchProjectResources(x.id)
+            })
+
+            projects.map(x => {
+                fetchProjectFolders(x.id)
+            })
+
+            let data = []
+
+            projects.map(x => {
+                let folders = []
+                x.folders.map(y => {
+                    folders.push({
+                        text: y.name,
+                        type: 'folder'
+                    })
+                })
+
+                let resources = []
+                x.resources.map(y => {
+                    resources.push({
+                        text: y.name,
+                        type: 'doc',
+                        data:{
+                            uri : y.uri,
+                            id : y.id,
+                            type: 'resource'
+                        },
+                        children: []
+                    })
+                })
+
+                data.push({
+                    text: x.name,
+                    id: x.id,
+                    children: resources.concat(folders)
+                })
+            })
+
+            const createItems = (node) => {
+                let items = {
+                    delete : {
+                        label : 'delete',
+                        action : function (data) {
+                            console.log($.jstree.reference(data.reference).get_node(data.reference).data.id)
+                        }
+                    },
+                    edit : {
+                        label : 'edit',
+                        action : function (data) {
+                            let url = `/OpenflexoColab/?file=${$.jstree.reference(data.reference).get_node(data.reference).data.id}`
+                            window.open(url, '_blank').focus()
+                        }
+                    },
+                    addVirtualModel : {
+                        label : 'Create Virtual Model',
+                        action : function (data) {
+                            $('#project_id').val($.jstree.reference(data.reference).get_node(data.reference).id)
+                            $('#new-virtual-model-modal').modal('show')
+                        }
+                    }
+                }
+
+                if (node.data == undefined) {
+                    delete items.delete
+                    delete items.edit
+                }
+
+                if (node.type && (node.type == 'resource' || node.type == 'folder' || node.type == 'doc')) {
+                    delete items.addVirtualModel
+                }
+
+                return items
+            }
+
+            $('.projects-tree').jstree({
+                core: {
+                    themes: {
+                        dots: false
+                    },
+                    data: data
+                },
+                plugins: ['types', 'contextmenu'],
+                types: {
+                    default: {
+                        icon: 'far fa-folder font-medium-1'
+                    },
+                    jpg: {
+                        icon: 'far fa-file-image text-info font-medium-1'
+                    },
+                    doc: {
+                        icon: 'far fa-file text-info font-medium-1'
+                    }
+                },
+                contextmenu : {
+                    items : createItems
+                },
+            })
+        }
+
+        const createResourceCenter = (rc) => {
+            return  `<div class="col-lg-3 col-md-6 col-12">
+                        <div class="card shadow-none border cursor-pointer">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <img src="/OpenflexoManager/assets/images/icons/database.png" alt="${rc.name}" height="38" />
+                                    <div class="dropdown-items-wrapper">
+                                        <i data-feather="more-vertical" id="dropdownMenuLink-${rc.id}" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink-${rc.id}">
+                                            <a class="dropdown-item" href="#">
+                                                <i data-feather="refresh-cw" class="me-25"></i>
+                                                <span class="align-middle">Refresh</span>
+                                            </a>
+                                            <a class="dropdown-item" href="#" onclick="showCreateProjectModal('${rc.id}')">
+                                                <i data-feather="plus-circle" class="me-25"></i>
+                                                <span class="align-middle">Create Project</span>
+                                            </a>
+                                            <a class="dropdown-item" href="#">
+                                                <i data-feather="trash" class="me-25"></i>
+                                                <span class="align-middle">Delete</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="my-1">
+                                    <h5 class="flexo-rc-name">${rc.name}</h5>
+                                </div>
+                                <div class="d-flex justify-content-between mb-50">
+                                    <span class="text-truncate">${rc.type}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+        }
+
+        const createResource = (resource) => {
+            return `<div class="card file-manager-item file">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="customCheck7">
+                            <label class="form-check-label" for="customCheck7"></label>
+                        </div>
+                        <div class="card-img-top file-logo-wrapper">
+                            <div class="dropdown float-end">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical toggle-dropdown mt-n25"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-center w-100">
+                                <img src="/OpenflexoManager/assets/images/icons/doc.png" alt="file-icon" height="35">
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="content-wrapper">
+                                <p class="card-text file-name mb-0">${resource.name}</p>
+                            </div>
+                            <small class="file-accessed text-muted">${resource.type}</small>
+                        </div>
+                    </div>`
+        }
+
+        const createProject = (prj) => {
+            return `<div class="card file-manager-item folder">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="customCheck-${prj.id}" />
+                            <label class="form-check-label" for="customCheck-${prj.id}"></label>
+                        </div>
+                        <div class="card-img-top file-logo-wrapper">
+                            <div class="dropdown float-end">
+                                <i data-feather="more-vertical" class="toggle-dropdown mt-n25"></i>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-center w-100">
+                                <i data-feather="folder"></i>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="content-wrapper">
+                                <p class="card-text file-name mb-0 flexo-project-name">${prj.name}</p>
+                                <p class="card-text file-size mb-0">${prj.resource_type}</p>
+<!--                                <p class="card-text file-date">01 may 2019</p>-->
+                            </div>
+<!--                            <small class="file-accessed text-muted">Last accessed: 21 hours ago</small>-->
+                        </div>
+                    </div>`
+        }
+
+        // const createSidebarProject = (name) => {
+        //     return `<a href="#" class="list-group-item list-group-item-action ">
+        //                 <i data-feather="package" class="me-50 font-medium-3"></i>
+        //                 <span class="align-middle">${name}</span>
+        //             </a>`
+        // }
+
+        const fetchResourceCenters = () => {
+            const url = "/rc/"
+
+            $.ajax({
+                url: url,
+                method: 'GET',
+                async: false,
+                success: function(response) {
+                    let flexo_rcs   = ''
+
+                    JSON.parse(response).forEach(function(obj) {
+                        flexo_rcs += createResourceCenter(obj)
+                    })
+
+                    $('.flexo-resource-centers').html(flexo_rcs)
+                }
+            })
+        }
+
+        const fetchProjects = () => {
+            const url = "/prj/"
+
+            $.ajax({
+                url: url,
+                method: 'GET',
+                async: false,
+                success: function(response) {
+                    let flexo_prjs  = ''
+                    let flexo_sprjs = ''
+                    projects        = JSON.parse(response)
+
+                    projects.forEach(function(obj) {
+                        flexo_prjs  += createProject(obj)
+                    })
+
+                    $('.flexo-projects').html(flexo_prjs)
+                    $('.flexo-projects-sidebar').html(flexo_sprjs)
+
+                    loadProjectsTree()
+                }
+            })
+        }
+
+        const fetchProjectResources = (id) => {
+            const url = `/prj/${id}/rsc/`
+
+            $.ajax({
+                url: url,
+                method: 'GET',
+                async: false,
+                success: function(response) {
+                    let resources = JSON.parse(response)
+
+                    projects.map(x => {
+                        if(x.id == id){
+                            x['resources'] = resources
+                        }
+                    })
+                }
+            })
+        }
+
+        const fetchProjectFolders = (id) => {
+            const url = `/prj/${id}/fdr/`
+
+            $.ajax({
+                url: url,
+                method: 'GET',
+                async: false,
+                success: function(response) {
+                    let folders = JSON.parse(response)
+
+                    projects.map(x => {
+                        if(x.id == id){
+                            x['folders'] = folders
+                        }
+                    })
+                }
+            })
+        }
+
+        const handleCreateResourceCenter = () => {
+            const url       = '/rc/'
+            const rc_path   = $('#rc_path').val()
+
+            $.ajax({
+                url: url,
+                method: 'POST',
+                async: false,
+                data:{
+                    rc_path: rc_path,
+                },
+                success: function(response) {
+                    let rc = JSON.parse(response)
+                    $('.flexo-resource-centers').append(createResourceCenter(rc))
+                    $('#rc_id').val(rc.id)
+                }
+            })
+        }
+
+        const handleCreateProject = () => {
+            const url       = '/prj/'
+            const prj_name  = $('#prj_name').val()
+            const rc_id     = $('#rc_id').val()
+
+            $.ajax({
+                url: url,
+                method: 'POST',
+                async: false,
+                data:{
+                    name: prj_name,
+                    resource_center_id: rc_id,
+                },
+                success: function(response) {
+                    let project = JSON.parse(response)
+                    $('.flexo-projects').append(createProject(project))
+                    // $('.flexo-projects-sidebar').append(createSidebarProject(JSON.parse(response).name))
+                    projects.push(project)
+
+                    loadProjectsTree()
+                }
+            })
+        }
+
+        const handleCreateVirtualModel = () => {
+            const url           = '/vm/'
+            const prj_id        = $('#project_id').val()
+            const is_abstract   = $('#is_abstract').is(':checked')
+            const vm_name       = $('#vm_name').val()
+            const visibility    = $('#visibility').val()
+
+            $.ajax({
+                url: url,
+                method: 'POST',
+                async: false,
+                data:{
+                    project_id: prj_id,
+                    is_abstract: is_abstract,
+                    visibility: visibility,
+                    name: vm_name,
+                },
+                success: function(response) {
+
+                    $('.flexo-resources').append(createResource(JSON.parse(response)))
+                    loadProjectsTree()
+                }
+            })
+        }
+
+        const showCreateProjectModal = (rc_id) => {
+            $('#new-project-modal').modal('show')
+            $('#rc_id').val(rc_id)
+        }
+
+        $(() => {
+            fetchResourceCenters()
+            fetchProjects()
+        })
+    </script>
+</body>
+<!-- END: Body-->
+</html>

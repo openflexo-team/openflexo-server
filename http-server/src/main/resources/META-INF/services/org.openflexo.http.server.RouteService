@@ -1,0 +1,4 @@
+#org.openflexo.http.server.core.ResourceCenterRouteService
+#org.openflexo.http.server.core.ResourceRouteService
+org.openflexo.http.server.core.TechnologyAdapterRouteService
+org.openflexo.http.server.core.routes.RestApiRoutes

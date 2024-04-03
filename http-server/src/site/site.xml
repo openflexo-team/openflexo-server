@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="Maven" xmlns="http://maven.apache.org/DECORATION/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
+   
+  <skin>
+    <groupId>org.openflexo</groupId>
+    <artifactId>openflexo-skin</artifactId>
+    <version>1.3-SNAPSHOT</version>
+  </skin>
+  
+  <custom>
+	<openflexo-skin>
+		<sideMenus>true</sideMenus>
+		<displayBreadCrumbs>true</displayBreadCrumbs>
+		<localMenu>/inc/html/developersMenu.html</localMenu>
+		<includeVersionLinks>true</includeVersionLinks>
+	</openflexo-skin>
+ </custom>
+   
+  <body>
+  
+    <menu name=""
+			img="https://support.openflexo.org/images/components/ta/http_ta/HTTP_200x100.png">
+	</menu>
+
+ 
+    <menu name="HTTP server">
+      <item name="Home" 		href="index.html" />
+      <item name="Javadoc"    	href="./apidocs/index.html" />
+    </menu>
+
+    <menu name="Documentation">
+      <item name="Getting started" 	href="GettingStarted.html" />
+      <item name="API for HTTP server" 	href="API.html" />
+      <item name="Application Routes" 	href="ApplicationRoutes.html" />
+      <item name="TechnologyAdapter Routes" 	href="TechnologyAdapterRoutes.html" />
+      <item name="Complement JSON" 	href="ComplementJson.html" />
+      <item name="Deploy using Docker" 	href="DeployWithDocker.html" />
+    </menu>
+
+    <menu ref="parent" />
+    <menu ref="modules" />
+    <menu ref="reports" />
+  </body>
+  
+</project>

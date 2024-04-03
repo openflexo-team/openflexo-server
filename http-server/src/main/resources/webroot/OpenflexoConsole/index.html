@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Console</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                border: 0;
+                background-color: #000;
+                color: #fff;
+                font-family: monospace;
+                font-size: 15pt;
+                font-weight: 200;
+            }
+
+            .wrapper{
+                display: grid;
+                row-gap: 10px;
+                max-height: 80vh;
+                width: 100%; 
+                overflow: auto;
+                grid-template-columns: 1fr 3fr 5fr;
+                background-color: #1c1c1c;
+            }
+
+            .level{
+                text-transform: uppercase;
+            }
+
+            .header h2{
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h2>OPENFLEXO WEB CONSOLE</h2>
+        </div>
+        <div class="wrapper">
+
+        </div>
+        <script src="/assets/vendors/js/vendors.min.js"></script>
+        <script type="text/javascript">
+            const renderRecord = (record) => {
+                return `<div class="box level">${record.level}</div>
+                        <div class="box">${record.date}</div>
+                        <div class="box">${record.message}</div>`
+            }
+
+            $(() => {
+                const url = '/console'
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function (response) {
+                        $('.wrapper').html('')
+                        JSON.parse(response).map(x => $('.wrapper').append(renderRecord(x)))
+                    }
+                })
+            })
+        </script>
+    </body>
+</html>

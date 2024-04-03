@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Openflexo Terminal</title>
+</head>
+<body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/assets/js/term-web.js"></script>
+    <div id="term"></div>
+
+    <script>
+        var sessionId   = localStorage.getItem('session_id')
+        var prompt      = 'openflexo'
+        var term;
+
+        const createTerminal = () => {
+            let url = '/terminal/init'
+
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType:'json',
+                async: false,
+                success: function (response) {
+                    localStorage.setItem('session_id', response.session_id)
+
+                    prompt      = response.prompt + ' > <d color="#00f501">$</d> '
+                    sessionId   = response.session_id
+                }
+            })
+        }
+
+        const getTerminal = () => {
+            let url = '/terminal/get'
+
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: {
+                    'session_id' : sessionId
+                },
+                async: false,
+                dataType: 'json',
+                success: function (response) {
+                    prompt = response.prompt + ' > <d color="#00f501">$</d> '
+                },
+                error: function() {
+                    createTerminal()
+                }
+            })
+        }
+
+        const initTerminal = () =>  {
+            if(sessionId == null) {
+                createTerminal()
+            } else {
+                getTerminal()
+            }
+
+            term = new Term({
+                recorder: false,
+                draggable: false,
+                container: '#term',
+                pixelRatio: 2,
+                autofocus: true,
+                watermark: '/assets/images/watermark.png',
+                title: `Openflexo Terminal 1.0.0`,
+                width: window.innerWidth - 16,
+                height: window.innerHeight - 16,
+                prefix: prompt,
+                loading: () => '<d color="yellow">Please wait for a moment...</d>',
+                notFound: (val) => `<d color='red'>${val}</d> : command not found`,
+            })
+        }
+
+        $(() => {
+            initTerminal();
+
+            $('.term-textarea').on("keydown", function(e){
+                if(e.which == 9){
+                    e.preventDefault()
+                    let url = '/terminal/completion'
+
+                    $.ajax({
+                        url: url,
+                        method: 'POST',
+                        data: {
+                            'session_id' : sessionId,
+                            'command' : localStorage.getItem('cmd')
+                        },
+                        async: false,
+                        dataType: 'json',
+                        success: function (response) {
+
+                            if (response.length == 1) {
+                                term.output(response[0])
+                                term.input(response[0])
+                            } else if  (response.length > 1){
+
+                                let result = response.reduce((res, val) => {
+                                    return res + "    " + val
+                                }, "")
+                                term.output(result.trim())
+                                term.input(localStorage.getItem('cmd'))
+                            }
+                        },
+                        error: function() {
+                            console.log("error")
+                        }
+                    })
+                }
+            });
+        })
+    </script>
+</body>
+</html>
