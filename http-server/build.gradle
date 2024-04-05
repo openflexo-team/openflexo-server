@@ -5,18 +5,18 @@ dependencies {
     implementation group: 'org.openflexo', name: 'flexo-ui', version: '2.99-SNAPSHOT'
     implementation group: 'jline', name: 'jline', version: '2.11'
 
-    compile 'io.vertx:vertx-core:4.3.6'
-    compile 'io.vertx:vertx-web:4.3.6'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.14.1'
-    compile 'io.vertx:vertx-auth-htpasswd:4.3.7'
+    implementation 'io.vertx:vertx-core:4.3.6'
+    implementation 'io.vertx:vertx-web:4.3.6'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.1'
+    implementation 'io.vertx:vertx-auth-htpasswd:4.3.7'
 
 
-    testCompile testUtils()
-    testCompile flexoFoundationTest()
-    testCompile 'io.vertx:vertx-unit:4.3.6'
-    testCompile 'io.vertx:vertx-junit5:4.3.6'
-    testCompile 'io.vertx:vertx-web-client:4.3.6'
-    testCompile 'org.junit.platform:junit-platform-suite:1.9.1'
+    testImplementation testUtils()
+    testImplementation flexoFoundationTest()
+    testImplementation 'io.vertx:vertx-unit:4.3.6'
+    testImplementation 'io.vertx:vertx-junit5:4.3.6'
+    testImplementation 'io.vertx:vertx-web-client:4.3.6'
+    testImplementation 'org.junit.platform:junit-platform-suite:1.9.1'
 
 }
 
