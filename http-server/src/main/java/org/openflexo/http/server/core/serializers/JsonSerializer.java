@@ -7,7 +7,7 @@ import org.openflexo.foundation.FlexoProject;
 import org.openflexo.foundation.fml.*;
 import org.openflexo.foundation.fml.cli.command.AbstractCommand;
 import org.openflexo.foundation.fml.editionaction.EditionAction;
-import org.openflexo.foundation.fml.rt.FMLRTModelSlot;
+import org.openflexo.foundation.fml.rt.AbstractFMLRTModelSlot;
 import org.openflexo.foundation.fml.rt.FlexoConceptInstance;
 import org.openflexo.foundation.fml.rt.VirtualModelInstance;
 import org.openflexo.foundation.fml.rt.logging.FMLLogRecord;
@@ -395,7 +395,7 @@ public class JsonSerializer {
      * @param modelSlot the model slot to serialize
      * @return A JsonObject
      */
-    public static JsonObject modelSlotSerializer(FMLRTModelSlot<?, ?> modelSlot) {
+    public static JsonObject modelSlotSerializer(AbstractFMLRTModelSlot<?, ?> modelSlot) {
         JsonObject result = new JsonObject();
 
         result.put("name", modelSlot.getName());

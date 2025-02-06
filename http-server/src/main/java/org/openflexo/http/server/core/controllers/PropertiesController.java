@@ -9,8 +9,8 @@ import org.openflexo.foundation.fml.action.CreateFlexoConceptInstanceRole;
 import org.openflexo.foundation.fml.action.CreateModelSlot;
 import org.openflexo.foundation.fml.action.CreatePrimitiveRole;
 import org.openflexo.foundation.fml.action.DeleteFlexoConceptObjects;
+import org.openflexo.foundation.fml.rt.AbstractFMLRTModelSlot;
 import org.openflexo.foundation.fml.rt.FMLRTModelSlot;
-import org.openflexo.foundation.fml.rt.FMLRTVirtualModelInstanceModelSlot;
 import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
 import org.openflexo.foundation.resource.SaveResourceException;
 import org.openflexo.http.server.core.helpers.Helpers;
@@ -55,7 +55,7 @@ public class PropertiesController extends GenericController {
             }
 
             for (FlexoProperty<?> property : model.getModelSlots()) {
-                result.add(JsonSerializer.modelSlotSerializer((FMLRTModelSlot<?, ?>) property));
+                result.add(JsonSerializer.modelSlotSerializer((AbstractFMLRTModelSlot<?, ?>) property));
             }
 
             for (FlexoProperty<?> property : model.getDeclaredProperties()) {
@@ -195,7 +195,7 @@ public class PropertiesController extends GenericController {
         if(validator.isValid()){
             CreateModelSlot modelSlot   = CreateModelSlot.actionType.makeNewAction(concept, null, editor);
 
-            modelSlot.setModelSlotClass(FMLRTVirtualModelInstanceModelSlot.class);
+            modelSlot.setModelSlotClass(FMLRTModelSlot.class);
             modelSlot.setTechnologyAdapter(validator.getTechnologyAdapter());
             modelSlot.setModelSlotName(validator.getName());
             modelSlot.setDescription(validator.getDescription());
@@ -211,7 +211,7 @@ public class PropertiesController extends GenericController {
                 badRequest(context);
             }
 
-            context.response().end(JsonSerializer.modelSlotSerializer((FMLRTModelSlot<?, ?>) modelSlot.getNewModelSlot()).encodePrettily());
+            context.response().end(JsonSerializer.modelSlotSerializer((AbstractFMLRTModelSlot<?, ?>) modelSlot.getNewModelSlot()).encodePrettily());
         } else {
             badValidation(context, errors);
         }

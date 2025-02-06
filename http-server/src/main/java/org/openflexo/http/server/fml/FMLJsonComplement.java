@@ -112,7 +112,7 @@ import org.openflexo.foundation.fml.FlexoEnum;
 import org.openflexo.foundation.fml.FlexoProperty;
 import org.openflexo.foundation.fml.FlexoRole;
 import org.openflexo.foundation.fml.VirtualModel;
-import org.openflexo.foundation.fml.rt.FMLRTVirtualModelInstanceModelSlot;
+import org.openflexo.foundation.fml.rt.FMLRTModelSlot;
 import org.openflexo.http.server.json.JsonComplement;
 import org.openflexo.http.server.json.JsonSerializer;
 import io.vertx.core.json.JsonObject;
@@ -175,8 +175,8 @@ public class FMLJsonComplement implements JsonComplement {
 			result.put("declaredType", serializer.toJson(role.getType(), detailed));
 			result.put("flexoConcept", serializer.toReference(role.getFlexoConcept()));
 			
-			if (object instanceof FMLRTVirtualModelInstanceModelSlot) {
-				FMLRTVirtualModelInstanceModelSlot modelSlot = (FMLRTVirtualModelInstanceModelSlot) object;
+			if (object instanceof FMLRTModelSlot) {
+				FMLRTModelSlot modelSlot = (FMLRTModelSlot) object;
 				result.put("accessedVirtualModel", serializer.toJson(modelSlot.getAccessedVirtualModel().getName(), detailed));				
 			}
 
