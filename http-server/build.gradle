@@ -1,8 +1,9 @@
 dependencies {
     implementation flexoFoundation()
-    implementation group: 'org.openflexo', name: 'flexo-foundation-rm', version: '2.99-SNAPSHOT'
-    implementation group: 'org.openflexo', name: 'fml-cli', version: '2.99-SNAPSHOT'
-    implementation group: 'org.openflexo', name: 'flexo-ui', version: '2.99-SNAPSHOT'
+    implementation flexoFoundationRm()
+    implementation fmlCli()
+    implementation flexoUi()
+    
     implementation group: 'jline', name: 'jline', version: '2.11'
 
     api 'io.vertx:vertx-core:4.3.6'
