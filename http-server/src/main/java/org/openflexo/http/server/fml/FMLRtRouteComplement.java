@@ -37,10 +37,10 @@ package org.openflexo.http.server.fml;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.openflexo.foundation.fml.rt.FMLRTTechnologyAdapter;
 import org.openflexo.foundation.fml.rt.FMLRTVirtualModelInstance;
 import org.openflexo.foundation.fml.rt.FMLRTVirtualModelInstanceRepository;
-import org.openflexo.foundation.fml.rt.rm.AbstractVirtualModelInstanceResource;
 import org.openflexo.foundation.fml.rt.rm.FMLRTVirtualModelInstanceResource;
 import org.openflexo.http.server.HttpService;
 import org.openflexo.http.server.core.TechnologyAdapterRouteComplement;
@@ -84,9 +84,9 @@ public class FMLRtRouteComplement implements TechnologyAdapterRouteComplement {
 
 	private FMLRTVirtualModelInstanceResource getVirtualModelInstanceResource(String uri) {
 		for (FMLRTVirtualModelInstanceRepository<?> viewLibrary : technologyAdapter.getVirtualModelInstanceRepositories()) {
-			AbstractVirtualModelInstanceResource<?, ?> virtualModelInstance = viewLibrary.getVirtualModelInstance(uri);
+			FMLRTVirtualModelInstanceResource virtualModelInstance = viewLibrary.getVirtualModelInstance(uri);
 			if (virtualModelInstance instanceof FMLRTVirtualModelInstanceResource) {
-				return (FMLRTVirtualModelInstanceResource) virtualModelInstance;
+				return virtualModelInstance;
 			}
 		}
 		return null;
