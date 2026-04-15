@@ -84,10 +84,7 @@ public class FMLRtRouteComplement implements TechnologyAdapterRouteComplement {
 
 	private FMLRTVirtualModelInstanceResource getVirtualModelInstanceResource(String uri) {
 		for (FMLRTVirtualModelInstanceRepository<?> viewLibrary : technologyAdapter.getVirtualModelInstanceRepositories()) {
-			FMLRTVirtualModelInstanceResource virtualModelInstance = viewLibrary.getVirtualModelInstance(uri);
-			if (virtualModelInstance instanceof FMLRTVirtualModelInstanceResource) {
-				return virtualModelInstance;
-			}
+			return viewLibrary.getVirtualModelInstance(uri);
 		}
 		return null;
 	}
