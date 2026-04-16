@@ -30,9 +30,11 @@ public class TestParameters extends AbstractRestTest {
         client.post(9090, "localhost", "/rc/")
             .sendForm(form)
             .onSuccess(res -> {
-                resourceCenter = res.bodyAsJsonObject();
-                Assertions.assertEquals(res.statusCode(), 200);
-                context.completeNow();
+                context.verify(() -> {
+                    resourceCenter = res.bodyAsJsonObject();
+                    Assertions.assertEquals(res.statusCode(), 200);
+                    context.completeNow();
+                });
             })
             .onFailure(context::failNow);
     }
@@ -50,12 +52,14 @@ public class TestParameters extends AbstractRestTest {
         client.post(9090, "localhost", "/prj/")
             .sendForm(form)
             .onSuccess(res -> {
-                flexoProject = res.bodyAsJsonObject();
+                context.verify(() -> {
+                    flexoProject = res.bodyAsJsonObject();
 
-                Assertions.assertEquals(flexoProject.getString("name"), "TestProject");
-                Assertions.assertEquals(res.statusCode(), 200);
+                    Assertions.assertEquals(flexoProject.getString("name"), "TestProject");
+                    Assertions.assertEquals(res.statusCode(), 200);
 
-                context.completeNow();
+                    context.completeNow();
+                });
             })
             .onFailure(context::failNow);
     }
@@ -75,13 +79,15 @@ public class TestParameters extends AbstractRestTest {
         client.post(9090, "localhost", "/vm/")
             .sendForm(form)
             .onSuccess(res -> {
-                vm = res.bodyAsJsonObject();
+                context.verify(() -> {
+                    vm = res.bodyAsJsonObject();
 
-                Assertions.assertEquals(vm.getString("name"), "VirtualModel");
-                Assertions.assertEquals(flexoProject.getString("project_id"), vm.getString("project_id"));
-                Assertions.assertEquals(res.statusCode(), 200);
+                    Assertions.assertEquals(vm.getString("name"), "VirtualModel");
+                    Assertions.assertEquals(flexoProject.getString("project_id"), vm.getString("project_id"));
+                    Assertions.assertEquals(res.statusCode(), 200);
 
-                context.completeNow();
+                    context.completeNow();
+                });
             })
             .onFailure(context::failNow);
     }
@@ -94,7 +100,7 @@ public class TestParameters extends AbstractRestTest {
         MultiMap form       = MultiMap.caseInsensitiveMultiMap();
         String vmId         = vm.getString("id");
         String name         = "behaviour";
-                
+
         form.set("name", name);
         form.set("is_abstract", "false");
         form.set("visibility", "public");
@@ -103,16 +109,18 @@ public class TestParameters extends AbstractRestTest {
         client.post(9090, "localhost", "/vm/" + vmId + "/cp/" + vmId + "/bhv/")
             .sendForm(form)
             .onSuccess(res -> {
-                behaviour = res.bodyAsJsonObject();
+                context.verify(() -> {
+                    behaviour = res.bodyAsJsonObject();
 
-                Assertions.assertEquals(behaviour.getString("visibility"), "Public");
-                Assertions.assertEquals(behaviour.getString("is_abstract"), "false");
-                Assertions.assertEquals(behaviour.getString("name"), name);
-                Assertions.assertEquals(behaviour.getString("virtual_model_id"), vmId);
-                Assertions.assertEquals(res.statusCode(), 200);
+                    Assertions.assertEquals(behaviour.getString("visibility"), "Public");
+                    Assertions.assertEquals(behaviour.getString("is_abstract"), "false");
+                    Assertions.assertEquals(behaviour.getString("name"), name);
+                    Assertions.assertEquals(behaviour.getString("virtual_model_id"), vmId);
+                    Assertions.assertEquals(res.statusCode(), 200);
 
-                newSignature = behaviour.getString("signature");
-                context.completeNow();
+                    newSignature = behaviour.getString("signature");
+                    context.completeNow();
+                });
             })
             .onFailure(context::failNow);
     }
@@ -133,15 +141,17 @@ public class TestParameters extends AbstractRestTest {
         client.post(9090, "localhost", "/vm/" + vmId + "/cp/")
             .sendForm(form)
             .onSuccess(res -> {
-                concept = res.bodyAsJsonObject();
+                context.verify(() -> {
+                    concept = res.bodyAsJsonObject();
 
-                Assertions.assertEquals(concept.getString("visibility"), "Public");
-                Assertions.assertEquals(concept.getString("is_abstract"), "false");
-                Assertions.assertEquals(concept.getString("name"), name);
-                Assertions.assertEquals(concept.getString("virtual_model_id"), vmId);
-                Assertions.assertEquals(res.statusCode(), 200);
+                    Assertions.assertEquals(concept.getString("visibility"), "Public");
+                    Assertions.assertEquals(concept.getString("is_abstract"), "false");
+                    Assertions.assertEquals(concept.getString("name"), name);
+                    Assertions.assertEquals(concept.getString("virtual_model_id"), vmId);
+                    Assertions.assertEquals(res.statusCode(), 200);
 
-                context.completeNow();
+                    context.completeNow();
+                });
             })
             .onFailure(context::failNow);
     }
@@ -162,15 +172,17 @@ public class TestParameters extends AbstractRestTest {
         client.post(9090, "localhost", "/vm/" + vmId + "/enums/")
             .sendForm(form)
             .onSuccess(res -> {
-                flexoEnum = res.bodyAsJsonObject();
+                context.verify(() -> {
+                    flexoEnum = res.bodyAsJsonObject();
 
-                Assertions.assertEquals(flexoEnum.getString("name"), name);
-                Assertions.assertEquals(flexoEnum.getString("is_abstract"), "false");
-                Assertions.assertEquals(flexoEnum.getString("visibility"), "Default");
-                Assertions.assertEquals(flexoEnum.getString("virtual_model_id"), vmId);
-                Assertions.assertEquals(res.statusCode(), 200);
+                    Assertions.assertEquals(flexoEnum.getString("name"), name);
+                    Assertions.assertEquals(flexoEnum.getString("is_abstract"), "false");
+                    Assertions.assertEquals(flexoEnum.getString("visibility"), "Default");
+                    Assertions.assertEquals(flexoEnum.getString("virtual_model_id"), vmId);
+                    Assertions.assertEquals(res.statusCode(), 200);
 
-                context.completeNow();
+                    context.completeNow();
+                });
             })
             .onFailure(context::failNow);
     }
@@ -191,14 +203,16 @@ public class TestParameters extends AbstractRestTest {
         client.post(9090, "localhost", "/vm/" + vmId + "/cp/" + vmId + "/bhv/" + newSignature + "/param/add-primitive")
             .sendForm(form)
             .onSuccess(res -> {
-                parameter = res.bodyAsJsonObject();
+                context.verify(() -> {
+                    parameter = res.bodyAsJsonObject();
 
-                Assertions.assertEquals(parameter.getString("type"), "java.lang.String");
-                Assertions.assertEquals(parameter.getString("is_required"), "false");
-                Assertions.assertEquals(parameter.getString("name"), name);
-                Assertions.assertEquals(res.statusCode(), 200);
-                newSignature = parameter.getString("behaviour_signature");
-                context.completeNow();
+                    Assertions.assertEquals(parameter.getString("type"), "java.lang.String");
+                    Assertions.assertEquals(parameter.getString("is_required"), "false");
+                    Assertions.assertEquals(parameter.getString("name"), name);
+                    Assertions.assertEquals(res.statusCode(), 200);
+                    newSignature = parameter.getString("behaviour_signature");
+                    context.completeNow();
+                });
             })
             .onFailure(context::failNow);
     }
@@ -219,16 +233,18 @@ public class TestParameters extends AbstractRestTest {
         client.post(9090, "localhost", "/vm/" + vmId + "/cp/" + vmId + "/bhv/" + newSignature + "/param/add-fmli")
             .sendForm(form)
             .onSuccess(res -> {
-                parameter = res.bodyAsJsonObject();
+                context.verify(() -> {
+                    parameter = res.bodyAsJsonObject();
 
-                Assertions.assertEquals(parameter.getString("type"), "Concept");
-                Assertions.assertEquals(parameter.getString("is_required"), "false");
-                Assertions.assertEquals(parameter.getString("name"), name);
-                Assertions.assertEquals(res.statusCode(), 200);
+                    Assertions.assertEquals(parameter.getString("type"), "Concept");
+                    Assertions.assertEquals(parameter.getString("is_required"), "false");
+                    Assertions.assertEquals(parameter.getString("name"), name);
+                    Assertions.assertEquals(res.statusCode(), 200);
 
-                newSignature = parameter.getString("behaviour_signature");
+                    newSignature = parameter.getString("behaviour_signature");
 
-                context.completeNow();
+                    context.completeNow();
+                });
             })
             .onFailure(context::failNow);
     }
@@ -249,18 +265,20 @@ public class TestParameters extends AbstractRestTest {
         client.post(9090, "localhost", "/vm/" + vmId + "/cp/" + vmId + "/bhv/" + newSignature + "/param/add-fmle")
             .sendForm(form)
             .onSuccess(res -> {
-                parameter       = res.bodyAsJsonObject();
-                newSignature    = parameter.getString("behaviour_signature");
+                context.verify(() -> {
+                    parameter       = res.bodyAsJsonObject();
+                    newSignature    = parameter.getString("behaviour_signature");
 
-                System.out.println(res.statusCode());
-                System.out.println(res.bodyAsJsonObject());
+                    System.out.println(res.statusCode());
+                    System.out.println(res.bodyAsJsonObject());
 
-                Assertions.assertEquals(parameter.getString("type"), "MyEnum");
-                Assertions.assertEquals(parameter.getString("is_required"), "false");
-                Assertions.assertEquals(parameter.getString("name"), name);
-                Assertions.assertEquals(res.statusCode(), 200);
+                    Assertions.assertEquals(parameter.getString("type"), "MyEnum");
+                    Assertions.assertEquals(parameter.getString("is_required"), "false");
+                    Assertions.assertEquals(parameter.getString("name"), name);
+                    Assertions.assertEquals(res.statusCode(), 200);
 
-                context.completeNow();
+                    context.completeNow();
+                });
             })
             .onFailure(context::failNow);
     }
@@ -276,9 +294,11 @@ public class TestParameters extends AbstractRestTest {
             .compose(req -> req.send()
             .compose(HttpClientResponse::body))
             .onSuccess(res -> {
-                Assertions.assertEquals(res.toJsonArray().size(), 15);
+                context.verify(() -> {
+                    Assertions.assertEquals(res.toJsonArray().size(), 15);
 
-                context.completeNow();
+                    context.completeNow();
+                });
             })
             .onFailure(context::failNow);
     }

@@ -32,9 +32,11 @@ public class TestProperties extends AbstractRestTest {
 		form.set("rc_path", "resource_center/");
 
 		client.post(9090, "localhost", "/rc/").sendForm(form).onSuccess(res -> {
-			resourceCenter = res.bodyAsJsonObject();
-			Assertions.assertEquals(res.statusCode(), 200);
-			context.completeNow();
+			context.verify(() -> {
+				resourceCenter = res.bodyAsJsonObject();
+				Assertions.assertEquals(res.statusCode(), 200);
+				context.completeNow();
+			});
 		})
 		.onFailure(context::failNow);
 	}
@@ -50,13 +52,14 @@ public class TestProperties extends AbstractRestTest {
 		form.set("name", "TestProject");
 
 		client.post(9090, "localhost", "/prj/").sendForm(form).onSuccess(res -> {
-			flexoProject = res.bodyAsJsonObject();
+			context.verify(() -> {
+				flexoProject = res.bodyAsJsonObject();
 
-			Assertions.assertEquals(flexoProject.getString("name"), "TestProject");
-			Assertions.assertEquals(res.statusCode(), 200);
+				Assertions.assertEquals(flexoProject.getString("name"), "TestProject");
+				Assertions.assertEquals(res.statusCode(), 200);
 
-			context.completeNow();
-
+				context.completeNow();
+			});
 		})
 		.onFailure(context::failNow);
 	}
@@ -74,13 +77,15 @@ public class TestProperties extends AbstractRestTest {
 		form.set("visibility", "public");
 
 		client.post(9090, "localhost", "/vm/").sendForm(form).onSuccess(res -> {
-			vm = res.bodyAsJsonObject();
+			context.verify(() -> {
+				vm = res.bodyAsJsonObject();
 
-			Assertions.assertEquals(vm.getString("name"), "VirtualModel1");
-			Assertions.assertEquals(flexoProject.getString("project_id"), vm.getString("project_id"));
-			Assertions.assertEquals(res.statusCode(), 200);
+				Assertions.assertEquals(vm.getString("name"), "VirtualModel1");
+				Assertions.assertEquals(flexoProject.getString("project_id"), vm.getString("project_id"));
+				Assertions.assertEquals(res.statusCode(), 200);
 
-			context.completeNow();
+				context.completeNow();
+			});
 		})
 		.onFailure(context::failNow);
 	}
@@ -99,16 +104,18 @@ public class TestProperties extends AbstractRestTest {
 		form.set("cardinality", "One");
 
 		client.post(9090, "localhost", "/vm/" + vmId + "/cp/" + vmId + "/prp/add-primitive").sendForm(form).onSuccess(res -> {
-			primitiveProp = res.bodyAsJsonObject();
+			context.verify(() -> {
+				primitiveProp = res.bodyAsJsonObject();
 
-			Assertions.assertEquals(primitiveProp.getString("type"), "String");
-			Assertions.assertEquals(primitiveProp.getString("cardinality"), "One");
-			Assertions.assertEquals(primitiveProp.getString("name"), name);
-			// Assertions.assertEquals(primitiveProp.getString("description"), "description");
-			Assertions.assertEquals(primitiveProp.getString("virtual_model_id"), vmId);
-			Assertions.assertEquals(res.statusCode(), 200);
+				Assertions.assertEquals(primitiveProp.getString("type"), "String");
+				Assertions.assertEquals(primitiveProp.getString("cardinality"), "One");
+				Assertions.assertEquals(primitiveProp.getString("name"), name);
+				// Assertions.assertEquals(primitiveProp.getString("description"), "description");
+				Assertions.assertEquals(primitiveProp.getString("virtual_model_id"), vmId);
+				Assertions.assertEquals(res.statusCode(), 200);
 
-			context.completeNow();
+				context.completeNow();
+			});
 		})
 		.onFailure(context::failNow);
 	}
@@ -127,15 +134,17 @@ public class TestProperties extends AbstractRestTest {
 		form.set("cardinality", "One");
 
 		client.post(9090, "localhost", "/vm/" + vmId + "/cp/" + vmId + "/prp/add-fcir").sendForm(form).onSuccess(res -> {
-			prop = res.bodyAsJsonObject();
+			context.verify(() -> {
+				prop = res.bodyAsJsonObject();
 
-			Assertions.assertEquals(prop.getString("concept_id"), vmId);
-			// Assertions.assertEquals(prop.getString("description"), "description");
-			Assertions.assertEquals(prop.getString("cardinality"), "One");
-			Assertions.assertEquals(prop.getString("name"), name);
-			Assertions.assertEquals(res.statusCode(), 200);
+				Assertions.assertEquals(prop.getString("concept_id"), vmId);
+				// Assertions.assertEquals(prop.getString("description"), "description");
+				Assertions.assertEquals(prop.getString("cardinality"), "One");
+				Assertions.assertEquals(prop.getString("name"), name);
+				Assertions.assertEquals(res.statusCode(), 200);
 
-			context.completeNow();
+				context.completeNow();
+			});
 		})
 		.onFailure(context::failNow);
 	}
@@ -157,17 +166,19 @@ public class TestProperties extends AbstractRestTest {
 		form.set("virtual_model_id", vmId);
 
 		client.post(9090, "localhost", "/vm/" + vmId + "/cp/" + vmId + "/prp/add-ms").sendForm(form).onSuccess(res -> {
-			prop = res.bodyAsJsonObject();
+			context.verify(() -> {
+				prop = res.bodyAsJsonObject();
 
-			Assertions.assertEquals(prop.getString("required"), "true");
-			Assertions.assertEquals(prop.getString("read_only"), "false");
-			Assertions.assertEquals(prop.getString("technology_adapter"), "FML technology adapter");
-			Assertions.assertEquals(prop.getString("virtual_model_id"), vmId);
-			// Assertions.assertEquals(prop.getString("description"), "description");
-			Assertions.assertEquals(prop.getString("name"), name);
-			Assertions.assertEquals(res.statusCode(), 200);
+				Assertions.assertEquals(prop.getString("required"), "true");
+				Assertions.assertEquals(prop.getString("read_only"), "false");
+				Assertions.assertEquals(prop.getString("technology_adapter"), "FML technology adapter");
+				Assertions.assertEquals(prop.getString("virtual_model_id"), vmId);
+				// Assertions.assertEquals(prop.getString("description"), "description");
+				Assertions.assertEquals(prop.getString("name"), name);
+				Assertions.assertEquals(res.statusCode(), 200);
 
-			context.completeNow();
+				context.completeNow();
+			});
 		})
 		.onFailure(context::failNow);
 	}
@@ -182,13 +193,14 @@ public class TestProperties extends AbstractRestTest {
 
 		client.request(HttpMethod.GET, 9090, "localhost", "/vm/" + vmId + "/cp/" + vmId + "/prp/" + name)
 				.compose(req -> req.send().compose(HttpClientResponse::body)).onSuccess(res -> {
+					context.verify(() -> {
+						Assertions.assertEquals(res.toJsonObject().getString("cardinality"), "One");
+						Assertions.assertEquals(res.toJsonObject().getString("name"), name);
+						Assertions.assertEquals(res.toJsonObject().getString("type"), "String");
+						// Assertions.assertEquals(res.toJsonObject().getString("description"), "description");
 
-					Assertions.assertEquals(res.toJsonObject().getString("cardinality"), "One");
-					Assertions.assertEquals(res.toJsonObject().getString("name"), name);
-					Assertions.assertEquals(res.toJsonObject().getString("type"), "String");
-					// Assertions.assertEquals(res.toJsonObject().getString("description"), "description");
-
-					context.completeNow();
+						context.completeNow();
+					});
 				})
 				.onFailure(context::failNow);
 	}
@@ -202,10 +214,11 @@ public class TestProperties extends AbstractRestTest {
 
 		client.request(HttpMethod.GET, 9090, "localhost", "/vm/" + vmId + "/cp/" + vmId + "/prp/")
 				.compose(req -> req.send().compose(HttpClientResponse::body)).onSuccess(res -> {
+					context.verify(() -> {
+						Assertions.assertEquals(res.toJsonArray().size(), 15);
 
-					Assertions.assertEquals(res.toJsonArray().size(), 15);
-
-					context.completeNow();
+						context.completeNow();
+					});
 				})
 				.onFailure(context::failNow);
 

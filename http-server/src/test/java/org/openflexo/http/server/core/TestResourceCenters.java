@@ -10,6 +10,7 @@ import io.vertx.ext.web.client.WebClient;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.*;
 import java.io.File;
+
 @DisplayName("Resource Centers Integration tests")
 public class TestResourceCenters extends AbstractRestTest {
 
@@ -27,11 +28,13 @@ public class TestResourceCenters extends AbstractRestTest {
         client.post(9090, "localhost", "/rc/")
                 .sendForm(form)
                 .onSuccess(res -> {
-                    resourceCenter = res.bodyAsJsonObject();
+                    context.verify(() -> {
+                        resourceCenter = res.bodyAsJsonObject();
 
-                    Assertions.assertEquals(res.statusCode(), 200);
+                        Assertions.assertEquals(res.statusCode(), 200);
 
-                    context.completeNow();
+                        context.completeNow();
+                    });
                 })
                 .onFailure(context::failNow);
     }
@@ -46,9 +49,11 @@ public class TestResourceCenters extends AbstractRestTest {
             .compose(req -> req.send()
             .compose(HttpClientResponse::body))
             .onSuccess(res -> {
-                Assertions.assertEquals(res.toJsonArray().size(), 1);
+                context.verify(() -> {
+                    Assertions.assertEquals(res.toJsonArray().size(), 1);
 
-                context.completeNow();
+                    context.completeNow();
+                });
             })
             .onFailure(context::failNow);
     }
@@ -64,10 +69,11 @@ public class TestResourceCenters extends AbstractRestTest {
                 .compose(req -> req.send()
                 .compose(HttpClientResponse::body))
                 .onSuccess(res -> {
+                    context.verify(() -> {
+                        Assertions.assertEquals(res.toJsonObject().getString("id"), id);
 
-                    Assertions.assertEquals(res.toJsonObject().getString("id"), id);
-
-                    context.completeNow();
+                        context.completeNow();
+                    });
                 })
                 .onFailure(context::failNow);
 
