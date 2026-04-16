@@ -32,7 +32,8 @@ public class TestBehaviourActions extends AbstractRestTest {
                 resourceCenter = res.bodyAsJsonObject();
                 Assertions.assertEquals(res.statusCode(), 200);
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -54,7 +55,8 @@ public class TestBehaviourActions extends AbstractRestTest {
                 Assertions.assertEquals(res.statusCode(), 200);
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -79,7 +81,8 @@ public class TestBehaviourActions extends AbstractRestTest {
                 Assertions.assertEquals(res.statusCode(), 200);
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -108,7 +111,8 @@ public class TestBehaviourActions extends AbstractRestTest {
                 Assertions.assertEquals(res.statusCode(), 200);
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -135,7 +139,8 @@ public class TestBehaviourActions extends AbstractRestTest {
                 Assertions.assertEquals(res.statusCode(), 200);
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -162,7 +167,8 @@ public class TestBehaviourActions extends AbstractRestTest {
                     Assertions.assertEquals(res.statusCode(), 200);
 
                     context.completeNow();
-                });
+                })
+                .onFailure(context::failNow);
     }
 
     @RepeatedTest(5)
@@ -185,7 +191,8 @@ public class TestBehaviourActions extends AbstractRestTest {
                 Assertions.assertEquals(res.statusCode(), 200);
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @RepeatedTest(5)
@@ -208,7 +215,8 @@ public class TestBehaviourActions extends AbstractRestTest {
                 Assertions.assertEquals(res.statusCode(), 200);
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @RepeatedTest(5)
@@ -231,7 +239,8 @@ public class TestBehaviourActions extends AbstractRestTest {
                     Assertions.assertEquals(res.statusCode(), 200);
 
                     context.completeNow();
-                });
+                })
+                .onFailure(context::failNow);
     }
 
     @RepeatedTest(5)
@@ -254,7 +263,8 @@ public class TestBehaviourActions extends AbstractRestTest {
                     Assertions.assertEquals(res.statusCode(), 200);
 
                     context.completeNow();
-                });
+                })
+                .onFailure(context::failNow);
     }
 
 }

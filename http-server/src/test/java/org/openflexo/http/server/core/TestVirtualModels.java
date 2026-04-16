@@ -33,7 +33,8 @@ public class TestVirtualModels extends AbstractRestTest {
                 resourceCenter = res.bodyAsJsonObject();
                 Assertions.assertEquals(res.statusCode(), 200);
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -56,7 +57,8 @@ public class TestVirtualModels extends AbstractRestTest {
 
                 context.completeNow();
 
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @RepeatedTest(5)
@@ -84,7 +86,8 @@ public class TestVirtualModels extends AbstractRestTest {
                 Assertions.assertEquals(res.statusCode(), 200);
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
 
     }
 
@@ -105,7 +108,8 @@ public class TestVirtualModels extends AbstractRestTest {
                 Assertions.assertEquals(flexoProject.getString("project_id"), vm.getString("project_id"));
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -121,6 +125,7 @@ public class TestVirtualModels extends AbstractRestTest {
                 Assertions.assertEquals(res.toJsonArray().size(), 5);
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 }

@@ -32,7 +32,8 @@ public class TestFlexoConcepts extends AbstractRestTest {
                 resourceCenter = res.bodyAsJsonObject();
                 Assertions.assertEquals(res.statusCode(), 200);
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -55,7 +56,8 @@ public class TestFlexoConcepts extends AbstractRestTest {
 
                 context.completeNow();
 
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -80,7 +82,8 @@ public class TestFlexoConcepts extends AbstractRestTest {
                 Assertions.assertEquals(res.statusCode(), 200);
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @RepeatedTest(5)
@@ -108,7 +111,8 @@ public class TestFlexoConcepts extends AbstractRestTest {
                 Assertions.assertEquals(res.statusCode(), 200);
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
 
         System.out.println(vm);
     }
@@ -132,7 +136,8 @@ public class TestFlexoConcepts extends AbstractRestTest {
                 Assertions.assertEquals(res.toJsonObject().getString("id"), id);
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -149,6 +154,7 @@ public class TestFlexoConcepts extends AbstractRestTest {
                 Assertions.assertEquals(res.toJsonArray().size(), 5);
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 }

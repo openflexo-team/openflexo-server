@@ -46,8 +46,8 @@ public class BehavioursController extends GenericController {
      * @param context the routing context
      */
     public void list(RoutingContext context) {
-        String id = context.request().getParam("id").trim();
         try {
+            String id = context.request().getParam("id").trim();
             VirtualModel model  = virtualModelLibrary.getVirtualModel(IdUtils.decodeId(id));
             JsonArray result    = new JsonArray();
 
@@ -105,6 +105,7 @@ public class BehavioursController extends GenericController {
                 concept.getDeclaringCompilationUnit().getResource().save();
             } catch (SaveResourceException e) {
                 badRequest(context);
+                return;
             }
 
             context.response().end(JsonSerializer.behaviourSerializer(behaviour.getNewFlexoBehaviour()).encodePrettily());
@@ -130,6 +131,7 @@ public class BehavioursController extends GenericController {
             model = virtualModelLibrary.getVirtualModel(IdUtils.decodeId(modelId));
         } catch (FileNotFoundException | ResourceLoadingCancelledException | FlexoException e) {
             notFound(context);
+            return;
         }
 
         FlexoBehaviour behaviour = model.getDeclaredFlexoBehaviour(signature);
@@ -142,6 +144,7 @@ public class BehavioursController extends GenericController {
                 model.getResource().save();
             } catch (SaveResourceException e) {
                 badRequest(context);
+                return;
             }
             emptyResponse(context);
         } else {
@@ -178,6 +181,7 @@ public class BehavioursController extends GenericController {
                     model.getResource().save();
                 } catch (SaveResourceException e) {
                     badRequest(context);
+                    return;
                 }
 
                 context.response().end(JsonSerializer.behaviourParameterSerializer(param).encodePrettily());
@@ -217,6 +221,7 @@ public class BehavioursController extends GenericController {
                     model.getResource().save();
                 } catch (SaveResourceException e) {
                     badRequest(context);
+                    return;
                 }
 
                 context.response().end(JsonSerializer.behaviourParameterSerializer(param).encodePrettily());
@@ -256,6 +261,7 @@ public class BehavioursController extends GenericController {
                     model.getResource().save();
                 } catch (SaveResourceException e) {
                     badRequest(context);
+                    return;
                 }
 
                 context.response().end(JsonSerializer.behaviourParameterSerializer(param).encodePrettily());
@@ -303,6 +309,7 @@ public class BehavioursController extends GenericController {
         for (FlexoBehaviourParameter param : behaviour.getParameters()) {
             if (param.getName().equals(parameter)){
                 context.response().end(JsonSerializer.behaviourParameterSerializer(param).encodePrettily());
+                return;
             }
         }
 
@@ -338,6 +345,7 @@ public class BehavioursController extends GenericController {
                     model.getResource().save();
                 } catch (SaveResourceException e) {
                     badRequest(context);
+                    return;
                 }
 
                 context.response().end(JsonSerializer.behaviourActionSerializer(action).encodePrettily());
@@ -379,6 +387,7 @@ public class BehavioursController extends GenericController {
                         model.getResource().save();
                     } catch (SaveResourceException e) {
                         badRequest(context);
+                        return;
                     }
                     createValue.setOwner(behaviour);
                     context.response().end(JsonSerializer.behaviourActionSerializer(createValue).encodePrettily());
@@ -425,6 +434,7 @@ public class BehavioursController extends GenericController {
                         model.getResource().save();
                     } catch (SaveResourceException e) {
                         badRequest(context);
+                        return;
                     }
                     expressionAction.setOwner(behaviour);
                     context.response().end(JsonSerializer.behaviourActionSerializer(expressionAction).encodePrettily());
@@ -472,6 +482,7 @@ public class BehavioursController extends GenericController {
                         model.getResource().save();
                     } catch (SaveResourceException e) {
                         badRequest(context);
+                        return;
                     }
                     expressionAction.setOwner(behaviour);
                     context.response().end(JsonSerializer.behaviourActionSerializer(expressionAction).encodePrettily());
@@ -511,6 +522,7 @@ public class BehavioursController extends GenericController {
                 behaviour.getDeclaringCompilationUnit().getVirtualModel().getResource().save();
             } catch (SaveResourceException e) {
                 badRequest(context);
+                return;
             }
 
             emptyResponse(context);

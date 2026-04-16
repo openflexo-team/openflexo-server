@@ -130,7 +130,7 @@ public class VirtualModelsController extends GenericController {
 				notFound(context);
 			}
 
-		} catch (FileNotFoundException | ResourceLoadingCancelledException | FlexoException e) {
+		} catch (Exception e) {
 			notFound(context);
 		}
 	}
@@ -154,7 +154,7 @@ public class VirtualModelsController extends GenericController {
 			action.doAction();
 
 			emptyResponse(context);
-		} catch (FileNotFoundException | ResourceLoadingCancelledException | FlexoException e) {
+		} catch (Exception e) {
 			notFound(context);
 		}
 	}
@@ -176,7 +176,7 @@ public class VirtualModelsController extends GenericController {
 				notFound(context);
 			}
 
-		} catch (FileNotFoundException | ResourceLoadingCancelledException | FlexoException e) {
+		} catch (Exception e) {
 			notFound(context);
 		}
 	}
@@ -203,7 +203,7 @@ public class VirtualModelsController extends GenericController {
 				notFound(context);
 			}
 
-		} catch (FileNotFoundException | ResourceLoadingCancelledException | FlexoException e) {
+		} catch (Exception e) {
 			notFound(context);
 		}
 	}

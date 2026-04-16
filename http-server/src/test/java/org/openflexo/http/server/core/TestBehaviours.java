@@ -32,7 +32,8 @@ public class TestBehaviours extends AbstractRestTest {
                     resourceCenter = res.bodyAsJsonObject();
                     Assertions.assertEquals(res.statusCode(), 200);
                     context.completeNow();
-                });
+                })
+                .onFailure(context::failNow);
     }
 
     @Test
@@ -55,7 +56,8 @@ public class TestBehaviours extends AbstractRestTest {
 
                     context.completeNow();
 
-                });
+                })
+                .onFailure(context::failNow);
     }
 
     @Test
@@ -80,7 +82,8 @@ public class TestBehaviours extends AbstractRestTest {
                     Assertions.assertEquals(res.statusCode(), 200);
 
                     context.completeNow();
-                });
+                })
+                .onFailure(context::failNow);
     }
 
     @RepeatedTest(5)
@@ -109,7 +112,8 @@ public class TestBehaviours extends AbstractRestTest {
                     Assertions.assertEquals(res.statusCode(), 200);
 
                     context.completeNow();
-                });
+                })
+                .onFailure(context::failNow);
 
         System.out.println(vm);
     }
@@ -133,7 +137,8 @@ public class TestBehaviours extends AbstractRestTest {
                     Assertions.assertEquals(behaviour.getString("signature"), signature);
 
                     context.completeNow();
-                });
+                })
+                .onFailure(context::failNow);
     }
 
     @Test
@@ -150,6 +155,7 @@ public class TestBehaviours extends AbstractRestTest {
                     Assertions.assertEquals(res.toJsonArray().size(), 5);
 
                     context.completeNow();
-                });
+                })
+                .onFailure(context::failNow);
     }
 }

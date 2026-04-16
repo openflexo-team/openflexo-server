@@ -223,6 +223,7 @@ public class ProjectsController extends GenericController {
 
                 } catch (IOException e) {
                     badRequest(context);
+                    return;
                 }
             }
             context.response().end(results.encodePrettily());
@@ -319,6 +320,7 @@ public class ProjectsController extends GenericController {
                 }
             } catch (Exception e) {
                 badRequest(context);
+                return;
             }
 
             context.response().end(results.encodePrettily());

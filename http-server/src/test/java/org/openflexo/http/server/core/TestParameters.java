@@ -33,7 +33,8 @@ public class TestParameters extends AbstractRestTest {
                 resourceCenter = res.bodyAsJsonObject();
                 Assertions.assertEquals(res.statusCode(), 200);
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -55,7 +56,8 @@ public class TestParameters extends AbstractRestTest {
                 Assertions.assertEquals(res.statusCode(), 200);
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -80,7 +82,8 @@ public class TestParameters extends AbstractRestTest {
                 Assertions.assertEquals(res.statusCode(), 200);
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -110,7 +113,8 @@ public class TestParameters extends AbstractRestTest {
 
                 newSignature = behaviour.getString("signature");
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -138,7 +142,8 @@ public class TestParameters extends AbstractRestTest {
                 Assertions.assertEquals(res.statusCode(), 200);
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -166,7 +171,8 @@ public class TestParameters extends AbstractRestTest {
                 Assertions.assertEquals(res.statusCode(), 200);
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @RepeatedTest(5)
@@ -193,7 +199,8 @@ public class TestParameters extends AbstractRestTest {
                 Assertions.assertEquals(res.statusCode(), 200);
                 newSignature = parameter.getString("behaviour_signature");
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @RepeatedTest(5)
@@ -222,7 +229,8 @@ public class TestParameters extends AbstractRestTest {
                 newSignature = parameter.getString("behaviour_signature");
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @RepeatedTest(5)
@@ -253,7 +261,8 @@ public class TestParameters extends AbstractRestTest {
                 Assertions.assertEquals(res.statusCode(), 200);
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -270,6 +279,7 @@ public class TestParameters extends AbstractRestTest {
                 Assertions.assertEquals(res.toJsonArray().size(), 15);
 
                 context.completeNow();
-            });
+            })
+            .onFailure(context::failNow);
     }
 }
