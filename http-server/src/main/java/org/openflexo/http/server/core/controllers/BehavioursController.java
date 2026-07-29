@@ -389,7 +389,11 @@ public class BehavioursController extends GenericController {
                         badRequest(context);
                         return;
                     }
-                    createValue.setOwner(behaviour);
+                    // NB: do NOT reassign the owner to the behaviour here. The action is already
+                    // correctly attached to its enclosing Sequence by sequentiallyAppend(). Forcing
+                    // createValue.setOwner(behaviour) detaches it from that Sequence and leaves the
+                    // Sequence with a null controlGraph2, which makes the next append fail with a
+                    // NullPointerException in Sequence.sequentiallyAppend().
                     context.response().end(JsonSerializer.behaviourActionSerializer(createValue).encodePrettily());
                 } else {
                     badRequest(context);
