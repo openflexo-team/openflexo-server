@@ -188,8 +188,7 @@ public class TestConceptInstances extends AbstractRestTest {
             .compose(HttpClientResponse::body))
             .onSuccess(res -> {
                 context.verify(() -> {
-                    System.out.println(res.toJson().toString());
-                    Assertions.assertEquals(cpi.getString("concept_id"), res.toJsonObject().getString("id"));
+                    Assertions.assertEquals(cpi.getString("concept_id"), res.toJsonObject().getString("concept_id"));
                     Assertions.assertEquals(res.toJsonObject().getString("id"), id);
 
                     context.completeNow();

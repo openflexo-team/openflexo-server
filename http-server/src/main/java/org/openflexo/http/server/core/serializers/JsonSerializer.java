@@ -229,6 +229,7 @@ public class JsonSerializer {
 	public static JsonObject conceptInstanceSerializer(FlexoConceptInstance instance) {
 		JsonObject result = new JsonObject();
 
+		result.put("id", String.valueOf(instance.getFlexoID()));
 		result.put("flexo_id", instance.getFlexoID());
 		result.put("resource_type", "FlexoConceptInstance");
 		result.put("concept_id", IdUtils.encodeuri(instance.getFlexoConceptURI()));
