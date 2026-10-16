@@ -43,8 +43,8 @@ public class EnumsController extends GenericController {
      * @param context the context of the request
      */
     public void list(RoutingContext context) {
-        String id = context.request().getParam("vmid").trim();
         try {
+            String id           = context.request().getParam("vmid").trim();
             VirtualModel model  = virtualModelLibrary.getVirtualModel(IdUtils.decodeId(id));
             JsonArray result    = new JsonArray();
 
@@ -103,13 +103,15 @@ public class EnumsController extends GenericController {
                     model.getResource().save();
                 } catch (SaveResourceException e) {
                     badRequest(context);
+                    return;
                 }
 
                 context.response().end(JsonSerializer.enumSerializer(flexoEnum.getNewFlexoConcept()).encodePrettily());
             } else {
                 badValidation(context, errors);
             }
-        } catch (FileNotFoundException | ResourceLoadingCancelledException | FlexoException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             notFound(context);
         }
     }

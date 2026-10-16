@@ -3,7 +3,6 @@ dependencies {
     implementation flexoFoundationRm()
     implementation fmlCli()
     implementation flexoUi()
-    
     implementation group: 'jline', name: 'jline', version: '2.11'
 
     api 'io.vertx:vertx-core:4.3.6'
@@ -33,3 +32,10 @@ run {
     }
 }
 
+// Each integration test class deploys OpenFlexoServer on the fixed port 9090
+// via @BeforeAll. Fork a fresh JVM per class so the port is always released
+// before the next class binds it (avoids java.net.BindException cascades).
+test {
+    forkEvery = 1
+    maxParallelForks = 1
+}

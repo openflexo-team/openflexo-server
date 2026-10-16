@@ -40,8 +40,8 @@ public class ConceptsController extends GenericController {
      * @param context the routing context
      */
     public void list(RoutingContext context) {
-        String id = context.request().getParam("vmid").trim();
         try {
+            String id = context.request().getParam("vmid").trim();
             VirtualModel model  = virtualModelLibrary.getVirtualModel(IdUtils.decodeId(id));
             JsonArray result    = new JsonArray();
 
@@ -101,13 +101,14 @@ public class ConceptsController extends GenericController {
                     model.getResource().save();
                 } catch (SaveResourceException e) {
                     badRequest(context);
+                    return;
                 }
 
                 context.response().end(JsonSerializer.conceptSerializer(concept.getNewFlexoConcept()).encodePrettily());
             } else {
                 badValidation(context, errors);
             }
-        } catch (FileNotFoundException | ResourceLoadingCancelledException | FlexoException e) {
+        } catch (Exception e) {
             notFound(context);
         }
     }
@@ -131,7 +132,8 @@ public class ConceptsController extends GenericController {
             try {
                 model.getResource().save();
             } catch (SaveResourceException e) {
-                throw new RuntimeException(e);
+                badRequest(context);
+                return;
             }
             emptyResponse(context);
         } else {

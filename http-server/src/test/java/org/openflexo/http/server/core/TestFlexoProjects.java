@@ -30,12 +30,15 @@ public class TestFlexoProjects extends AbstractRestTest {
         client.post(9090, "localhost", "/rc/")
             .sendForm(form)
             .onSuccess(res -> {
-                resourceCenter = res.bodyAsJsonObject();
+                context.verify(() -> {
+                    resourceCenter = res.bodyAsJsonObject();
 
-                Assertions.assertEquals(res.statusCode(), 200);
+                    Assertions.assertEquals(res.statusCode(), 200);
 
-                context.completeNow();
-            });
+                    context.completeNow();
+                });
+            })
+            .onFailure(context::failNow);
     }
 
     @RepeatedTest(5)
@@ -52,13 +55,16 @@ public class TestFlexoProjects extends AbstractRestTest {
         client.post(9090, "localhost", "/prj/")
             .sendForm(form)
             .onSuccess(res -> {
-                flexoProject = res.bodyAsJsonObject();
+                context.verify(() -> {
+                    flexoProject = res.bodyAsJsonObject();
 
-                Assertions.assertEquals(flexoProject.getString("name"), name);
-                Assertions.assertEquals(res.statusCode(), 200);
+                    Assertions.assertEquals(flexoProject.getString("name"), name);
+                    Assertions.assertEquals(res.statusCode(), 200);
 
-                context.completeNow();
-            });
+                    context.completeNow();
+                });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -72,11 +78,13 @@ public class TestFlexoProjects extends AbstractRestTest {
             .compose(req -> req.send()
             .compose(HttpClientResponse::body))
             .onSuccess(res -> {
+                context.verify(() -> {
+                    Assertions.assertEquals(res.toJsonObject().getString("id"), id);
 
-                Assertions.assertEquals(res.toJsonObject().getString("id"), id);
-
-                context.completeNow();
-            });
+                    context.completeNow();
+                });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -89,10 +97,13 @@ public class TestFlexoProjects extends AbstractRestTest {
             .compose(req -> req.send()
             .compose(HttpClientResponse::body))
             .onSuccess(res -> {
-                Assertions.assertEquals(res.toJsonArray().size(), 5);
+                context.verify(() -> {
+                    Assertions.assertEquals(res.toJsonArray().size(), 5);
 
-                context.completeNow();
-            });
+                    context.completeNow();
+                });
+            })
+            .onFailure(context::failNow);
         Assertions.assertEquals(3, 3);
     }
 
@@ -110,11 +121,14 @@ public class TestFlexoProjects extends AbstractRestTest {
         client.post(9090, "localhost", "/prj/" + id + "/fdr/")
             .sendForm(form)
             .onSuccess(res -> {
-                Assertions.assertEquals(res.bodyAsJsonObject().getString("name"), name);
-                Assertions.assertEquals(res.statusCode(), 200);
+                context.verify(() -> {
+                    Assertions.assertEquals(res.bodyAsJsonObject().getString("name"), name);
+                    Assertions.assertEquals(res.statusCode(), 200);
 
-                context.completeNow();
-            });
+                    context.completeNow();
+                });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -128,9 +142,12 @@ public class TestFlexoProjects extends AbstractRestTest {
             .compose(req -> req.send()
             .compose(HttpClientResponse::body))
             .onSuccess(res -> {
-                Assertions.assertEquals(res.toJsonArray().size(), 5);
+                context.verify(() -> {
+                    Assertions.assertEquals(res.toJsonArray().size(), 5);
 
-                context.completeNow();
-            });
+                    context.completeNow();
+                });
+            })
+            .onFailure(context::failNow);
     }
 }

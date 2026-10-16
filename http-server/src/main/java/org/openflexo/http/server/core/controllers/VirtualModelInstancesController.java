@@ -118,6 +118,7 @@ public class VirtualModelInstancesController extends GenericController{
                             creationBhv = model.getCreationSchemes().get(0);
                         } catch (Exception e) {
                             badRequest(context, "No creation scheme found");
+                        return;
                         }
 
                         if(creationScheme != null && !creationScheme.isEmpty()){
@@ -138,10 +139,12 @@ public class VirtualModelInstancesController extends GenericController{
                                     JsonObject errorLine = new JsonObject();
                                     errorLine.put(p.getName(), "Missing parameter value");
                                     badValidation(context, new JsonArray().add(errorLine));
+                                    return;
                                 }
                                 vmi.setParameterValue(p, parameterValue);
                             } else {
                                 badRequest(context, "Only string parameters are supported");
+                                return;
                             }
                         }
                     }
@@ -152,10 +155,11 @@ public class VirtualModelInstancesController extends GenericController{
                         model.getResource().save();
                     } catch (SaveResourceException e) {
                         badRequest(context);
+                        return;
                     }
 
                     context.response().end(JsonSerializer.virtualModelInstanceSerializer(vmi.getNewVirtualModelInstance()).encodePrettily());
-                } catch (FileNotFoundException | ResourceLoadingCancelledException | FlexoException e) {
+                } catch (Exception e) {
                     notFound(context);
                 }
             } else {
@@ -188,6 +192,7 @@ public class VirtualModelInstancesController extends GenericController{
                 model.getResource().save();
             } catch (SaveResourceException e) {
                 badRequest(context);
+                return;
             }
 
             emptyResponse(context);
@@ -216,7 +221,7 @@ public class VirtualModelInstancesController extends GenericController{
             }
 
             context.response().end(result.encodePrettily());
-        } catch (FileNotFoundException | ResourceLoadingCancelledException | FlexoException e) {
+        } catch (Exception e) {
             notFound(context);
         }
     }
@@ -250,10 +255,12 @@ public class VirtualModelInstancesController extends GenericController{
                             JsonObject errorLine = new JsonObject();
                             errorLine.put(p.getName(), "Missing parameter value");
                             badValidation(context, new JsonArray().add(errorLine));
+                            return;
                         }
                         action.setParameterValue(p, parameterValue);
                     } else {
                         badRequest(context, "Only string parameters are supported");
+                        return;
                     }
                 }
                 action.doAction();
@@ -262,6 +269,7 @@ public class VirtualModelInstancesController extends GenericController{
                     instance.getResource().save();
                 } catch (SaveResourceException e) {
                     badRequest(context);
+                    return;
                 }
                 emptyResponse(context);
             } else {

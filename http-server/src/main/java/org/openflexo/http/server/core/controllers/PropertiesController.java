@@ -52,22 +52,19 @@ public class PropertiesController extends GenericController {
 	 *            the routing context
 	 */
 	public void list(RoutingContext context) {
-		String id = context.request().getParam("id").trim();
-
 		try {
+			String id = context.request().getParam("id").trim();
 			VirtualModel model = virtualModelLibrary.getVirtualModel(IdUtils.decodeId(id));
 			JsonArray result = new JsonArray();
 
-			for (FlexoProperty<?> property : model.getDeclaredRoles()) {
-				result.add(JsonSerializer.conceptInstanceRoleSerializer((FlexoConceptInstanceRole) property));
-			}
-
-			for (FlexoProperty<?> property : model.getModelSlots()) {
-				result.add(JsonSerializer.modelSlotSerializer((AbstractFMLRTModelSlot<?, ?, ?>) property));
-			}
-
 			for (FlexoProperty<?> property : model.getDeclaredProperties()) {
-				result.add(JsonSerializer.primitivePropertySerializer((PrimitiveRole<?>) property));
+				if (property instanceof FlexoConceptInstanceRole) {
+					result.add(JsonSerializer.conceptInstanceRoleSerializer((FlexoConceptInstanceRole) property));
+				} else if (property instanceof AbstractFMLRTModelSlot) {
+					result.add(JsonSerializer.modelSlotSerializer((AbstractFMLRTModelSlot<?, ?, ?>) property));
+				} else if (property instanceof PrimitiveRole) {
+					result.add(JsonSerializer.primitivePropertySerializer((PrimitiveRole<?>) property));
+				}
 			}
 
 			context.response().end(result.encodePrettily());
@@ -121,6 +118,7 @@ public class PropertiesController extends GenericController {
 				concept.getDeclaringCompilationUnit().getVirtualModel().getResource().save();
 			} catch (SaveResourceException e) {
 				badRequest(context);
+				return;
 			}
 
 			PrimitiveRole<?> prop = property.getNewFlexoRole();
@@ -186,6 +184,7 @@ public class PropertiesController extends GenericController {
 				concept.getDeclaringCompilationUnit().getVirtualModel().getResource().save();
 			} catch (SaveResourceException e) {
 				badRequest(context);
+				return;
 			}
 
 			context.response().end(JsonSerializer.conceptInstanceRoleSerializer(role.getNewFlexoRole()).encodePrettily());
@@ -224,6 +223,7 @@ public class PropertiesController extends GenericController {
 				model.getResource().save();
 			} catch (SaveResourceException e) {
 				badRequest(context);
+				return;
 			}
 
 			context.response().end(

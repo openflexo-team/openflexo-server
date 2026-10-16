@@ -1,3 +1,5 @@
+rootProject.name = 'openflexo-server'
+
 include 'http-server'
 include 'gina-http'
 

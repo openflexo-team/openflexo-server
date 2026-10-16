@@ -29,10 +29,13 @@ public class TestVirtualModelInstances extends AbstractRestTest {
         client.post(9090, "localhost", "/rc/")
             .sendForm(form)
             .onSuccess(res -> {
-                resourceCenter = res.bodyAsJsonObject();
-                Assertions.assertEquals(res.statusCode(), 200);
-                context.completeNow();
-            });
+                context.verify(() -> {
+                    resourceCenter = res.bodyAsJsonObject();
+                    Assertions.assertEquals(res.statusCode(), 200);
+                    context.completeNow();
+                });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -48,14 +51,16 @@ public class TestVirtualModelInstances extends AbstractRestTest {
         client.post(9090, "localhost", "/prj/")
             .sendForm(form)
             .onSuccess(res -> {
-                flexoProject = res.bodyAsJsonObject();
+                context.verify(() -> {
+                    flexoProject = res.bodyAsJsonObject();
 
-                Assertions.assertEquals(flexoProject.getString("name"), "TestProject");
-                Assertions.assertEquals(res.statusCode(), 200);
+                    Assertions.assertEquals(flexoProject.getString("name"), "TestProject");
+                    Assertions.assertEquals(res.statusCode(), 200);
 
-                context.completeNow();
-
-            });
+                    context.completeNow();
+                });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -73,14 +78,17 @@ public class TestVirtualModelInstances extends AbstractRestTest {
         client.post(9090, "localhost", "/vm/")
             .sendForm(form)
             .onSuccess(res -> {
-                vm = res.bodyAsJsonObject();
+                context.verify(() -> {
+                    vm = res.bodyAsJsonObject();
 
-                Assertions.assertEquals(vm.getString("name"), "VirtualModel");
-                Assertions.assertEquals(flexoProject.getString("project_id"), vm.getString("project_id"));
-                Assertions.assertEquals(res.statusCode(), 200);
+                    Assertions.assertEquals(vm.getString("name"), "VirtualModel");
+                    Assertions.assertEquals(flexoProject.getString("project_id"), vm.getString("project_id"));
+                    Assertions.assertEquals(res.statusCode(), 200);
 
-                context.completeNow();
-            });
+                    context.completeNow();
+                });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -100,16 +108,19 @@ public class TestVirtualModelInstances extends AbstractRestTest {
         client.post(9090, "localhost", "/vm/" + vmId + "/cp/" + vmId + "/bhv/")
                 .sendForm(form)
                 .onSuccess(res -> {
-                    behaviour = res.bodyAsJsonObject();
+                    context.verify(() -> {
+                        behaviour = res.bodyAsJsonObject();
 
-                    Assertions.assertEquals(behaviour.getString("visibility"), "Public");
-                    Assertions.assertEquals(behaviour.getString("is_abstract"), "false");
-                    Assertions.assertEquals(behaviour.getString("name"), name);
-                    Assertions.assertEquals(behaviour.getString("virtual_model_id"), vmId);
-                    Assertions.assertEquals(res.statusCode(), 200);
+                        Assertions.assertEquals(behaviour.getString("visibility"), "Public");
+                        Assertions.assertEquals(behaviour.getString("is_abstract"), "false");
+                        Assertions.assertEquals(behaviour.getString("name"), name);
+                        Assertions.assertEquals(behaviour.getString("virtual_model_id"), vmId);
+                        Assertions.assertEquals(res.statusCode(), 200);
 
-                    context.completeNow();
-                });
+                        context.completeNow();
+                    });
+                })
+                .onFailure(context::failNow);
     }
 
     @RepeatedTest(5)
@@ -127,15 +138,18 @@ public class TestVirtualModelInstances extends AbstractRestTest {
         client.post(9090, "localhost", "/prj/" + flexoProject.getString("id") + "/vm/" + vm.getString("id") + "/instances/")
             .sendForm(form)
             .onSuccess(res -> {
-                instance = res.bodyAsJsonObject();
+                context.verify(() -> {
+                    instance = res.bodyAsJsonObject();
 
-                Assertions.assertEquals(instance.getString("name"), name);
-                Assertions.assertEquals(instance.getString("title"), title);
-                Assertions.assertEquals(instance.getString("virtual_model_id"), vm.getString("id"));
-                Assertions.assertEquals(res.statusCode(), 200);
+                    Assertions.assertEquals(instance.getString("name"), name);
+                    Assertions.assertEquals(instance.getString("title"), title);
+                    Assertions.assertEquals(instance.getString("virtual_model_id"), vm.getString("id"));
+                    Assertions.assertEquals(res.statusCode(), 200);
 
-                context.completeNow();
-            });
+                    context.completeNow();
+                });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -150,13 +164,16 @@ public class TestVirtualModelInstances extends AbstractRestTest {
             .compose(req -> req.send()
             .compose(HttpClientResponse::body))
             .onSuccess(res -> {
-                Assertions.assertEquals(res.toJsonObject().getString("name"), instance.getString("name"));
-                Assertions.assertEquals(res.toJsonObject().getString("title"), instance.getString("title"));
-                Assertions.assertEquals(res.toJsonObject().getString("virtual_model_id"), instance.getString("virtual_model_id"));
-                Assertions.assertEquals(res.toJsonObject().getString("id"), id);
+                context.verify(() -> {
+                    Assertions.assertEquals(res.toJsonObject().getString("name"), instance.getString("name"));
+                    Assertions.assertEquals(res.toJsonObject().getString("title"), instance.getString("title"));
+                    Assertions.assertEquals(res.toJsonObject().getString("virtual_model_id"), instance.getString("virtual_model_id"));
+                    Assertions.assertEquals(res.toJsonObject().getString("id"), id);
 
-                context.completeNow();
-            });
+                    context.completeNow();
+                });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -169,10 +186,13 @@ public class TestVirtualModelInstances extends AbstractRestTest {
             .compose(req -> req.send()
             .compose(HttpClientResponse::body))
             .onSuccess(res -> {
-                Assertions.assertEquals(res.toJsonArray().size(), 5);
+                context.verify(() -> {
+                    Assertions.assertEquals(res.toJsonArray().size(), 5);
 
-                context.completeNow();
-            });
+                    context.completeNow();
+                });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -186,10 +206,13 @@ public class TestVirtualModelInstances extends AbstractRestTest {
             .compose(req -> req.send()
             .compose(HttpClientResponse::body))
             .onSuccess(res -> {
-                System.out.println(res.toJson());
-                Assertions.assertEquals(res.toJsonArray().size(), 1);
+                context.verify(() -> {
+                    System.out.println(res.toJson());
+                    Assertions.assertEquals(res.toJsonArray().size(), 1);
 
-                context.completeNow();
-            });
+                    context.completeNow();
+                });
+            })
+            .onFailure(context::failNow);
     }
 }

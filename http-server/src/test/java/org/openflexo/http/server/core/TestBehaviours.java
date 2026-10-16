@@ -29,10 +29,13 @@ public class TestBehaviours extends AbstractRestTest {
         client.post(9090, "localhost", "/rc/")
                 .sendForm(form)
                 .onSuccess(res -> {
-                    resourceCenter = res.bodyAsJsonObject();
-                    Assertions.assertEquals(res.statusCode(), 200);
-                    context.completeNow();
-                });
+                    context.verify(() -> {
+                        resourceCenter = res.bodyAsJsonObject();
+                        Assertions.assertEquals(res.statusCode(), 200);
+                        context.completeNow();
+                    });
+                })
+                .onFailure(context::failNow);
     }
 
     @Test
@@ -48,14 +51,16 @@ public class TestBehaviours extends AbstractRestTest {
         client.post(9090, "localhost", "/prj/")
                 .sendForm(form)
                 .onSuccess(res -> {
-                    flexoProject = res.bodyAsJsonObject();
+                    context.verify(() -> {
+                        flexoProject = res.bodyAsJsonObject();
 
-                    Assertions.assertEquals(flexoProject.getString("name"), "TestProject");
-                    Assertions.assertEquals(res.statusCode(), 200);
+                        Assertions.assertEquals(flexoProject.getString("name"), "TestProject");
+                        Assertions.assertEquals(res.statusCode(), 200);
 
-                    context.completeNow();
-
-                });
+                        context.completeNow();
+                    });
+                })
+                .onFailure(context::failNow);
     }
 
     @Test
@@ -73,14 +78,17 @@ public class TestBehaviours extends AbstractRestTest {
         client.post(9090, "localhost", "/vm/")
                 .sendForm(form)
                 .onSuccess(res -> {
-                    vm = res.bodyAsJsonObject();
+                    context.verify(() -> {
+                        vm = res.bodyAsJsonObject();
 
-                    Assertions.assertEquals(vm.getString("name"), "VirtualModel");
-                    Assertions.assertEquals(flexoProject.getString("project_id"), vm.getString("project_id"));
-                    Assertions.assertEquals(res.statusCode(), 200);
+                        Assertions.assertEquals(vm.getString("name"), "VirtualModel");
+                        Assertions.assertEquals(flexoProject.getString("project_id"), vm.getString("project_id"));
+                        Assertions.assertEquals(res.statusCode(), 200);
 
-                    context.completeNow();
-                });
+                        context.completeNow();
+                    });
+                })
+                .onFailure(context::failNow);
     }
 
     @RepeatedTest(5)
@@ -100,16 +108,19 @@ public class TestBehaviours extends AbstractRestTest {
         client.post(9090, "localhost", "/vm/" + vmId + "/cp/" + vmId + "/bhv/")
                 .sendForm(form)
                 .onSuccess(res -> {
-                    behaviour = res.bodyAsJsonObject();
+                    context.verify(() -> {
+                        behaviour = res.bodyAsJsonObject();
 
-                    Assertions.assertEquals(behaviour.getString("visibility"), "Public");
-                    Assertions.assertEquals(behaviour.getString("is_abstract"), "false");
-                    Assertions.assertEquals(behaviour.getString("name"), name);
-                    Assertions.assertEquals(behaviour.getString("virtual_model_id"), vmId);
-                    Assertions.assertEquals(res.statusCode(), 200);
+                        Assertions.assertEquals(behaviour.getString("visibility"), "Public");
+                        Assertions.assertEquals(behaviour.getString("is_abstract"), "false");
+                        Assertions.assertEquals(behaviour.getString("name"), name);
+                        Assertions.assertEquals(behaviour.getString("virtual_model_id"), vmId);
+                        Assertions.assertEquals(res.statusCode(), 200);
 
-                    context.completeNow();
-                });
+                        context.completeNow();
+                    });
+                })
+                .onFailure(context::failNow);
 
         System.out.println(vm);
     }
@@ -127,13 +138,16 @@ public class TestBehaviours extends AbstractRestTest {
                 .compose(req -> req.send()
                         .compose(HttpClientResponse::body))
                 .onSuccess(res -> {
-                    Assertions.assertEquals(behaviour.getString("visibility"), "Public");
-                    Assertions.assertEquals(behaviour.getString("is_abstract"), "false");
-                    Assertions.assertEquals(behaviour.getString("virtual_model_id"), vmId);
-                    Assertions.assertEquals(behaviour.getString("signature"), signature);
+                    context.verify(() -> {
+                        Assertions.assertEquals(behaviour.getString("visibility"), "Public");
+                        Assertions.assertEquals(behaviour.getString("is_abstract"), "false");
+                        Assertions.assertEquals(behaviour.getString("virtual_model_id"), vmId);
+                        Assertions.assertEquals(behaviour.getString("signature"), signature);
 
-                    context.completeNow();
-                });
+                        context.completeNow();
+                    });
+                })
+                .onFailure(context::failNow);
     }
 
     @Test
@@ -147,9 +161,12 @@ public class TestBehaviours extends AbstractRestTest {
                 .compose(req -> req.send()
                         .compose(HttpClientResponse::body))
                 .onSuccess(res -> {
-                    Assertions.assertEquals(res.toJsonArray().size(), 5);
+                    context.verify(() -> {
+                        Assertions.assertEquals(res.toJsonArray().size(), 5);
 
-                    context.completeNow();
-                });
+                        context.completeNow();
+                    });
+                })
+                .onFailure(context::failNow);
     }
 }

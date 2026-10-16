@@ -30,10 +30,13 @@ public class TestEnums extends AbstractRestTest {
         client.post(9090, "localhost", "/rc/")
             .sendForm(form)
             .onSuccess(res -> {
-                resourceCenter = res.bodyAsJsonObject();
-                Assertions.assertEquals(res.statusCode(), 200);
-                context.completeNow();
-            });
+                context.verify(() -> {
+                    resourceCenter = res.bodyAsJsonObject();
+                    Assertions.assertEquals(res.statusCode(), 200);
+                    context.completeNow();
+                });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -49,14 +52,16 @@ public class TestEnums extends AbstractRestTest {
         client.post(9090, "localhost", "/prj/")
             .sendForm(form)
             .onSuccess(res -> {
-                flexoProject = res.bodyAsJsonObject();
+                context.verify(() -> {
+                    flexoProject = res.bodyAsJsonObject();
 
-                Assertions.assertEquals(flexoProject.getString("name"), "TestProject");
-                Assertions.assertEquals(res.statusCode(), 200);
+                    Assertions.assertEquals(flexoProject.getString("name"), "TestProject");
+                    Assertions.assertEquals(res.statusCode(), 200);
 
-                context.completeNow();
-
-            });
+                    context.completeNow();
+                });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -74,14 +79,17 @@ public class TestEnums extends AbstractRestTest {
         client.post(9090, "localhost", "/vm/")
             .sendForm(form)
             .onSuccess(res -> {
-                vm = res.bodyAsJsonObject();
+                context.verify(() -> {
+                    vm = res.bodyAsJsonObject();
 
-                Assertions.assertEquals(vm.getString("name"), "VirtualModel");
-                Assertions.assertEquals(flexoProject.getString("project_id"), vm.getString("project_id"));
-                Assertions.assertEquals(res.statusCode(), 200);
+                    Assertions.assertEquals(vm.getString("name"), "VirtualModel");
+                    Assertions.assertEquals(flexoProject.getString("project_id"), vm.getString("project_id"));
+                    Assertions.assertEquals(res.statusCode(), 200);
 
-                context.completeNow();
-            });
+                    context.completeNow();
+                });
+            })
+            .onFailure(context::failNow);
     }
 
     @RepeatedTest(5)
@@ -100,16 +108,19 @@ public class TestEnums extends AbstractRestTest {
         client.post(9090, "localhost", "/vm/" + vmId + "/enums/")
                 .sendForm(form)
                 .onSuccess(res -> {
-                    flexoEnum = res.bodyAsJsonObject();
+                    context.verify(() -> {
+                        flexoEnum = res.bodyAsJsonObject();
 
-                    Assertions.assertEquals(flexoEnum.getString("name"), name);
-                    Assertions.assertEquals(flexoEnum.getString("is_abstract"), "false");
-                    Assertions.assertEquals(flexoEnum.getString("visibility"), "Default");
-                    Assertions.assertEquals(flexoEnum.getString("virtual_model_id"), vmId);
-                    Assertions.assertEquals(res.statusCode(), 200);
+                        Assertions.assertEquals(flexoEnum.getString("name"), name);
+                        Assertions.assertEquals(flexoEnum.getString("is_abstract"), "false");
+                        Assertions.assertEquals(flexoEnum.getString("visibility"), "Default");
+                        Assertions.assertEquals(flexoEnum.getString("virtual_model_id"), vmId);
+                        Assertions.assertEquals(res.statusCode(), 200);
 
-                    context.completeNow();
-                });
+                        context.completeNow();
+                    });
+                })
+                .onFailure(context::failNow);
 
         System.out.println(vm);
     }
@@ -127,14 +138,16 @@ public class TestEnums extends AbstractRestTest {
             .compose(req -> req.send()
             .compose(HttpClientResponse::body))
             .onSuccess(res -> {
+                context.verify(() -> {
+                    Assertions.assertEquals(flexoEnum.getString("is_abstract"), "false");
+                    Assertions.assertEquals(flexoEnum.getString("visibility"), "Default");
+                    Assertions.assertEquals(flexoEnum.getString("virtual_model_id"), vmId);
+                    Assertions.assertEquals(res.toJsonObject().getString("id"), id);
 
-                Assertions.assertEquals(flexoEnum.getString("is_abstract"), "false");
-                Assertions.assertEquals(flexoEnum.getString("visibility"), "Default");
-                Assertions.assertEquals(flexoEnum.getString("virtual_model_id"), vmId);
-                Assertions.assertEquals(res.toJsonObject().getString("id"), id);
-
-                context.completeNow();
-            });
+                    context.completeNow();
+                });
+            })
+            .onFailure(context::failNow);
     }
 
     @Test
@@ -148,9 +161,12 @@ public class TestEnums extends AbstractRestTest {
             .compose(req -> req.send()
             .compose(HttpClientResponse::body))
             .onSuccess(res -> {
-                Assertions.assertEquals(res.toJsonArray().size(), 5);
+                context.verify(() -> {
+                    Assertions.assertEquals(res.toJsonArray().size(), 5);
 
-                context.completeNow();
-            });
+                    context.completeNow();
+                });
+            })
+            .onFailure(context::failNow);
     }
 }

@@ -37,26 +37,45 @@ import org.openflexo.logging.FlexoLoggingManager;
 public class OpenFlexoServer extends AbstractVerticle {
 
 	@Override
-	public void start() throws Exception {
-		Options options 							= new Options();
-		options.serverOptions.host 					= "localhost";
-		options.serverOptions.port 					= 9090;
-		FlexoServiceManager manager 				= createServiceManager(options);
-		Router router 								= Router.router(vertx);
-		ServiceLoader<RouteService> restServices 	= ServiceLoader.load(RouteService.class);
-		List<RouteService> initializedServices 		= new ArrayList<>();
+	public void start(io.vertx.core.Promise<Void> startPromise) {
+		Options options 	= new Options();
+		options.serverOptions.host = "localhost";
+		options.serverOptions.port = 9090;
+		Router router 		= Router.router(vertx);
 
-		for (RouteService<FlexoServiceManager> routeService : restServices) {
-			if(routeService instanceof RestApiRoutes) {
-				routeService.initialize(new HttpService(options.serverOptions), manager);
-				initializedServices.add(routeService);
+		vertx.executeBlocking(promise -> {
+			try {
+				FlexoServiceManager manager 				= createServiceManager(options);
+				ServiceLoader<RouteService> restServices 	= ServiceLoader.load(RouteService.class);
+				List<RouteService> initializedServices 		= new ArrayList<>();
+
+				for (RouteService<FlexoServiceManager> routeService : restServices) {
+					if (routeService instanceof RestApiRoutes) {
+						routeService.initialize(new HttpService(options.serverOptions), manager);
+						initializedServices.add(routeService);
+					}
+				}
+
+				initializedServices.get(0).addRoutes(vertx, router);
+				promise.complete();
+			} catch (Exception e) {
+				promise.fail(e);
 			}
-		}
-
-		initializedServices.get(0).addRoutes(vertx, router);
-
-		HttpServer server = vertx.createHttpServer();
-		server.requestHandler(router).listen(9090, "localhost");
+		}, res -> {
+			if (res.failed()) {
+				startPromise.fail(res.cause());
+				return;
+			}
+			vertx.createHttpServer()
+				.requestHandler(router)
+				.listen(options.serverOptions.port, options.serverOptions.host, ar -> {
+					if (ar.succeeded()) {
+						startPromise.complete();
+					} else {
+						startPromise.fail(ar.cause());
+					}
+				});
+		});
 	}
 
 	public static class Options {
