@@ -95,6 +95,7 @@ import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.pamela.exceptions.InvalidDataException;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.pamela.factory.PamelaModelFactory;
+import org.openflexo.pamela.factory.PamelaProxies;
 import org.openflexo.pamela.factory.ProxyMethodHandler;
 import org.openflexo.pamela.factory.StringEncoder;
 import org.openflexo.pamela.model.ModelEntity;
@@ -102,8 +103,6 @@ import org.openflexo.pamela.model.ModelProperty;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import javassist.util.proxy.ProxyObject;
-
 /**
  * An instance of JsonSerializer transforms Pamela object to JSON object. The JSON result only contains the object destined to a REST
  * service.
@@ -263,8 +262,8 @@ public class JsonSerializer {
 	}
 
 	private static String getType(Object object) {
-		if (object instanceof ProxyObject) {
-			ProxyMethodHandler<?> handler = (ProxyMethodHandler<?>) ((ProxyObject) object).getHandler();
+		ProxyMethodHandler<?> handler = PamelaProxies.handlerOf(object);
+		if (handler != null) {
 			@SuppressWarnings({ "unchecked" })
 			ModelEntity<Object> modelEntity = (ModelEntity<Object>) handler.getModelEntity();
 			return modelEntity.getXMLTag();
@@ -289,8 +288,8 @@ public class JsonSerializer {
 			}
 		}
 
-		if (object instanceof ProxyObject) {
-			ProxyMethodHandler<?> handler = (ProxyMethodHandler<?>) ((ProxyObject) object).getHandler();
+		ProxyMethodHandler<?> handler = PamelaProxies.handlerOf(object);
+		if (handler != null) {
 			@SuppressWarnings({ "unchecked" })
 			ModelEntity<Object> modelEntity = (ModelEntity<Object>) handler.getModelEntity();
 
