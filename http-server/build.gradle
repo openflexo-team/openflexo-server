@@ -24,7 +24,9 @@ test {
     useJUnitPlatform()
 }
 apply plugin: 'application'
-mainClassName = "org.openflexo.http.server.OpenFlexoServer"
+application {
+    mainClass = "org.openflexo.http.server.OpenFlexoServer"
+}
 
 run {
     if ( project.hasProperty("serverArgs") ) {
