@@ -3,7 +3,7 @@ dependencies {
     implementation flexoFoundationRm()
     implementation fmlCli()
     implementation flexoUi()
-    implementation group: 'jline', name: 'jline', version: '2.11'
+    implementation group: 'jline', name: 'jline', version: '2.14.6'
 
     api 'io.vertx:vertx-core:4.5.35'
     implementation 'io.vertx:vertx-web:4.5.35'
