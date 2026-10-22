@@ -5,17 +5,17 @@ dependencies {
     implementation flexoUi()
     implementation group: 'jline', name: 'jline', version: '2.11'
 
-    api 'io.vertx:vertx-core:4.3.6'
-    implementation 'io.vertx:vertx-web:4.3.6'
+    api 'io.vertx:vertx-core:4.5.35'
+    implementation 'io.vertx:vertx-web:4.5.35'
     implementation jacksonDatabind()
-    implementation 'io.vertx:vertx-auth-htpasswd:4.3.7'
+    implementation 'io.vertx:vertx-auth-htpasswd:4.5.35'
 
 
     testImplementation testUtils()
     testImplementation flexoFoundationTest()
-    testImplementation 'io.vertx:vertx-unit:4.3.6'
-    testImplementation 'io.vertx:vertx-junit5:4.3.6'
-    testImplementation 'io.vertx:vertx-web-client:4.3.6'
+    testImplementation 'io.vertx:vertx-unit:4.5.35'
+    testImplementation 'io.vertx:vertx-junit5:4.5.35'
+    testImplementation 'io.vertx:vertx-web-client:4.5.35'
     testImplementation 'org.junit.platform:junit-platform-suite:1.9.1'
 
 }
