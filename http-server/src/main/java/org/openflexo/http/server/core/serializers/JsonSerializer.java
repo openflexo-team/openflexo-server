@@ -8,7 +8,7 @@ import java.util.Map;
 import org.openflexo.foundation.FlexoObject;
 import org.openflexo.foundation.FlexoProject;
 import org.openflexo.foundation.fml.FlexoBehaviour;
-import org.openflexo.foundation.fml.FlexoBehaviourParameter;
+import org.openflexo.foundation.fml.FlexoBehaviourArgument;
 import org.openflexo.foundation.fml.FlexoConcept;
 import org.openflexo.foundation.fml.FlexoConceptInstanceRole;
 import org.openflexo.foundation.fml.FlexoEnumValue;
@@ -146,13 +146,13 @@ public class JsonSerializer {
 	}
 
 	/**
-	 * It takes a FlexoBehaviourParameter object and returns a JsonObject that contains all the information about the parameter
+	 * It takes a FlexoBehaviourArgument object and returns a JsonObject that contains all the information about the parameter
 	 *
 	 * @param parameter
 	 *            the parameter to serialize
 	 * @return A JsonObject
 	 */
-	public static JsonObject behaviourParameterSerializer(FlexoBehaviourParameter parameter) {
+	public static JsonObject behaviourParameterSerializer(FlexoBehaviourArgument parameter) {
 		JsonObject result = new JsonObject();
 
 		result.put("name", parameter.getName());

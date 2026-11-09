@@ -126,7 +126,7 @@ public abstract class ResourceRestService<D, R> {
 				ActionSchemeActionFactory actionType = new ActionSchemeActionFactory(as, rtvmi.getFlexoConceptInstance());
 				ActionSchemeAction action = actionType.makeNewAction(rtvmi.getVirtualModelInstance(), null, rtvmi.getEditor());
 
-				for (FlexoBehaviourParameter p : as.getParameters()) {
+				for (FlexoBehaviourArgument p : as.getParameters()) {
 					// Only string parameters supported
 					String paramType = p.getType().getTypeName();
 					if (paramType.equals("java.lang.String")) {
@@ -195,7 +195,7 @@ public abstract class ResourceRestService<D, R> {
 					action.setVirtualModel(vm);
 
 					// Fill parameters
-					for (FlexoBehaviourParameter p : selectedCreationScheme.getParameters()) {
+					for (FlexoBehaviourArgument p : selectedCreationScheme.getParameters()) {
 						// Only string parameters supported
 						String paramType = p.getType().getTypeName();
 						if (paramType.equals("java.lang.String")) {

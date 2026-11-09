@@ -175,7 +175,7 @@ public class BehavioursController extends GenericController {
                 parameter.setIsRequired(validator.isRequired());
 //                parameter.setDefaultValue(validator.getDefaultValue());
                 parameter.doAction();
-                FlexoBehaviourParameter param = parameter.getNewParameter();
+                FlexoBehaviourArgument param = parameter.getNewParameter();
 
                 try {
                     model.getResource().save();
@@ -215,7 +215,7 @@ public class BehavioursController extends GenericController {
                 parameter.setDescription(validator.getDescription());
                 parameter.setIsRequired(validator.isRequired());
                 parameter.doAction();
-                FlexoBehaviourParameter param = parameter.getNewParameter();
+                FlexoBehaviourArgument param = parameter.getNewParameter();
 
                 try {
                     model.getResource().save();
@@ -255,7 +255,7 @@ public class BehavioursController extends GenericController {
                 parameter.setDescription(validator.getDescription());
                 parameter.setIsRequired(validator.isRequired());
                 parameter.doAction();
-                FlexoBehaviourParameter param = parameter.getNewParameter();
+                FlexoBehaviourArgument param = parameter.getNewParameter();
 
                 try {
                     model.getResource().save();
@@ -285,7 +285,7 @@ public class BehavioursController extends GenericController {
         String signature            = context.request().getParam("signature").trim();
         FlexoBehaviour behaviour    = virtualModelLibrary.getFlexoConcept(IdUtils.decodeId(vm_id)).getDeclaredFlexoBehaviour(signature);
 
-        for (FlexoBehaviourParameter param : behaviour.getParameters()) {
+        for (FlexoBehaviourArgument param : behaviour.getParameters()) {
             result.add(JsonSerializer.behaviourParameterSerializer(param));
         }
 
@@ -306,7 +306,7 @@ public class BehavioursController extends GenericController {
         String parameter            = context.request().getParam("name").trim();
         FlexoBehaviour behaviour    = virtualModelLibrary.getFlexoConcept(IdUtils.decodeId(vm_id)).getDeclaredFlexoBehaviour(signature);
 
-        for (FlexoBehaviourParameter param : behaviour.getParameters()) {
+        for (FlexoBehaviourArgument param : behaviour.getParameters()) {
             if (param.getName().equals(parameter)){
                 context.response().end(JsonSerializer.behaviourParameterSerializer(param).encodePrettily());
                 return;
@@ -416,9 +416,9 @@ public class BehavioursController extends GenericController {
         String signature                        = context.request().getParam("signature").trim();
         String parameter                        = context.request().getParam("name").trim();
         FlexoBehaviour behaviour                = virtualModelLibrary.getFlexoConcept(IdUtils.decodeId(vm_id)).getDeclaredFlexoBehaviour(signature);
-        FlexoBehaviourParameter removedParam    = null;
+        FlexoBehaviourArgument removedParam    = null;
 
-        for (FlexoBehaviourParameter param : behaviour.getParameters()) {
+        for (FlexoBehaviourArgument param : behaviour.getParameters()) {
             if (param.getName().equals(parameter)){
                 removedParam = param;
             }

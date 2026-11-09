@@ -44,7 +44,7 @@ public class BehaviourActionsValidator extends GenericValidator {
         side = validateName(side);
 
         if(side.startsWith("parameters.")){
-            for (FlexoBehaviourParameter parameter: behaviour.getParameters()){
+            for (FlexoBehaviourArgument parameter: behaviour.getParameters()){
                 if(parameter.getName().equals(side.replace("parameters.", ""))){
                     return side;
                 }

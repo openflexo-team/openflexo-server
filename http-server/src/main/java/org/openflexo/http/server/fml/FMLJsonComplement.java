@@ -106,7 +106,7 @@
 package org.openflexo.http.server.fml;
 
 import org.openflexo.foundation.fml.FlexoBehaviour;
-import org.openflexo.foundation.fml.FlexoBehaviourParameter;
+import org.openflexo.foundation.fml.FlexoBehaviourArgument;
 import org.openflexo.foundation.fml.FlexoConcept;
 import org.openflexo.foundation.fml.FlexoEnum;
 import org.openflexo.foundation.fml.FlexoProperty;
@@ -189,8 +189,8 @@ public class FMLJsonComplement implements JsonComplement {
 			result.put("controlGraph", serializer.toArray(behavior.getControlGraph().getFlattenedSequence(), detailed));
 
 		}
-		else if (object instanceof FlexoBehaviourParameter) {
-			FlexoBehaviourParameter parameter = (FlexoBehaviourParameter) object;
+		else if (object instanceof FlexoBehaviourArgument) {
+			FlexoBehaviourArgument parameter = (FlexoBehaviourArgument) object;
 			result.put("declaredType", serializer.toJson(parameter.getType(), detailed));
 			result.put("behavior", serializer.toReference(parameter.getBehaviour()));
 			result.put("flexoConcept", serializer.toReference(parameter.getFlexoConcept()));

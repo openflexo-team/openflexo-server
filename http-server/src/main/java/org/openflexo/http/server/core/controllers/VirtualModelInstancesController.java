@@ -131,7 +131,7 @@ public class VirtualModelInstancesController extends GenericController{
                         }
                         vmi.setCreationScheme(creationBhv);
 
-                        for(FlexoBehaviourParameter p : creationBhv.getParameters()) {
+                        for(FlexoBehaviourArgument p : creationBhv.getParameters()) {
                             if(p.getType().getTypeName().equals("java.lang.String")){
                                 String parameterValue = context.request().getParam(p.getName());
 
@@ -248,7 +248,7 @@ public class VirtualModelInstancesController extends GenericController{
                 ActionSchemeActionFactory actionType    = new ActionSchemeActionFactory(actionScheme, instance.getFlexoConceptInstance());
                 ActionSchemeAction action               = actionType.makeNewAction(instance.getVirtualModelInstance(), null, editor);
 
-                for(FlexoBehaviourParameter p : actionScheme.getParameters()) {
+                for(FlexoBehaviourArgument p : actionScheme.getParameters()) {
                     if(p.getType().getTypeName().equals("java.lang.String")){
                         String parameterValue = context.request().getParam((p.getName()));
                         if(parameterValue == null) {
