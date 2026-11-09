@@ -221,10 +221,6 @@ public class RestApiRoutes implements RouteService<FlexoServiceManager> {
         router.post("/vm/:vmid/cp/:id/bhv/:signature/act/add-log").produces(JSON).handler(bhvController::addLogAction);
         router.post("/virtual-models/:vmid/concepts/:id/behaviours/:signature/actions/add-assignation").produces(JSON).handler(bhvController::addAssignation);
         router.post("/vm/:vmid/cp/:id/bhv/:signature/act/add-assign").produces(JSON).handler(bhvController::addAssignation);
-        router.post("/virtual-models/:vmid/concepts/:id/behaviours/:signature/actions/add-to-list").produces(JSON).handler(bhvController::addToList);
-        router.post("/vm/:vmid/cp/:id/bhv/:signature/act/add-to-list").produces(JSON).handler(bhvController::addToList);
-        router.post("/virtual-models/:vmid/concepts/:id/behaviours/:signature/actions/remove-from-list").produces(JSON).handler(bhvController::removeFromList);
-        router.post("/vm/:vmid/cp/:id/bhv/:signature/act/remove-from-list").produces(JSON).handler(bhvController::removeFromList);
 
         // Virtual Model Instances
         router.get("/projects/:prjid/virtual-model/:vmid/instances/").produces(JSON).handler(vmiController::list);

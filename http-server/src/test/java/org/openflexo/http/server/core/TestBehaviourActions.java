@@ -215,56 +215,5 @@ public class TestBehaviourActions extends AbstractRestTest {
 				}).onFailure(context::failNow);
 	}
 
-	/*@RepeatedTest(5)
-	@Order(9)
-	@Timeout(1000)
-	public void createAddToListAction(Vertx vertx, VertxTestContext context) {
-	    WebClient client    = WebClient.create(vertx);
-	    MultiMap form       = MultiMap.caseInsensitiveMultiMap();
-	    String vmId         = vm.getString("id");
-	
-	    form.set("left", "prop");
-	    form.set("right", "parameters.param");
-	
-	    client.post(9090, "localhost", "/vm/" + vmId + "/cp/" + vmId + "/bhv/" + newSignature + "/act/add-to-list")
-	            .sendForm(form)
-	            .onSuccess(res -> {
-	                context.verify(() -> {
-	                    action = res.bodyAsJsonObject();
-	
-	                    Assertions.assertEquals(action.getString("resource_type"), "BehaviourAction");
-	                    Assertions.assertEquals(res.statusCode(), 200);
-	
-	                    context.completeNow();
-	                });
-	            })
-	            .onFailure(context::failNow);
-	}
-	
-	@RepeatedTest(5)
-	@Order(9)
-	@Timeout(1000)
-	public void createRemoveFromListAction(Vertx vertx, VertxTestContext context) {
-	    WebClient client    = WebClient.create(vertx);
-	    MultiMap form       = MultiMap.caseInsensitiveMultiMap();
-	    String vmId         = vm.getString("id");
-	
-	    form.set("left", "prop");
-	    form.set("right", "parameters.param");
-	
-	    client.post(9090, "localhost", "/vm/" + vmId + "/cp/" + vmId + "/bhv/" + newSignature + "/act/remove-from-list")
-	            .sendForm(form)
-	            .onSuccess(res -> {
-	                context.verify(() -> {
-	                    action = res.bodyAsJsonObject();
-	
-	                    Assertions.assertEquals(action.getString("resource_type"), "BehaviourAction");
-	                    Assertions.assertEquals(res.statusCode(), 200);
-	
-	                    context.completeNow();
-	                });
-	            })
-	            .onFailure(context::failNow);
-	}*/
 
 }
