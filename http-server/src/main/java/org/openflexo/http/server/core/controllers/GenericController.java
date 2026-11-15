@@ -4,12 +4,75 @@ import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonArray;
 import io.vertx.ext.web.RoutingContext;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.openflexo.foundation.action.FlexoAction;
+import org.openflexo.foundation.fml.rt.error.FMLErrorReporter;
+import org.openflexo.http.server.core.serializers.JsonSerializer;
+
 /**
  * A Generic controller for managing exceptional http status
  *
  * @author Ihab Benamer
  */
 public abstract class GenericController {
+
+    private static final Logger logger = Logger.getLogger(GenericController.class.getPackage().getName());
+
+    /**
+     * Answer supplied failure of FML: its JSON ({@link JsonSerializer#fmlErrorSerializer(Throwable)}), with the status 400 for an error
+     * foreseen by FML (the FML or its data are at fault) and 500 for a defect of the platform (CORE-F-11). A defect not reported yet is
+     * logged with its Java stack.
+     *
+     * @param context The routing context.
+     * @param failure The failure, as thrown or as given by {@link FlexoAction#getFailure()}.
+     */
+    public void fmlError(RoutingContext context, Throwable failure) {
+        boolean foreseen = FMLErrorReporter.isForeseen(failure);
+        if (!foreseen && !FMLErrorReporter.isReported(failure)) {
+            logger.log(Level.SEVERE, "Unexpected failure", failure);
+        }
+        HttpServerResponse response = context.response();
+        response.putHeader("content-type", "application/json");
+        response.setStatusCode(foreseen ? 400 : 500);
+        response.end(JsonSerializer.fmlErrorSerializer(failure).encodePrettily());
+    }
+
+    /**
+     * Execute supplied action; when it does not succeed, answer its failure ({@link #fmlError(RoutingContext, Throwable)}), or 409 when
+     * it was not executed because it is not enabled, and return false: the caller then stops, and saves nothing (CORE-F-11). The edits a
+     * failing action made before its failure stay in memory (SERVER-D-1)
+     *
+     * @param context The routing context.
+     * @param action The action to execute.
+     * @return true when the action succeeded
+     */
+    public boolean performAction(RoutingContext context, FlexoAction<?, ?, ?> action) {
+        try {
+            action.doAction();
+        } catch (RuntimeException e) {
+            // A defect of the platform, reported by the editor and rethrown
+            fmlError(context, e);
+            return false;
+        }
+        if (action.hasActionExecutionSucceeded()) {
+            return true;
+        }
+        Throwable failure = action.getFailure();
+        if (failure != null) {
+            fmlError(context, failure);
+        }
+        else {
+            // Not executed, without a failure: the action is not enabled (a false @Enable of a behaviour)
+            HttpServerResponse response = context.response();
+            response.putHeader("content-type", "application/json");
+            response.setStatusCode(409);
+            response.end(JsonSerializer.fmlNotEnabledSerializer(
+                    "Action " + action.getLocalizedName() + " was not executed: it is not enabled").encodePrettily());
+        }
+        return false;
+    }
 
     /**
      * If the request is not found, then set the status code to 404 and close the connection

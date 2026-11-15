@@ -19,6 +19,10 @@ import org.openflexo.foundation.fml.editionaction.EditionAction;
 import org.openflexo.foundation.fml.rt.AbstractFMLRTModelSlot;
 import org.openflexo.foundation.fml.rt.FlexoConceptInstance;
 import org.openflexo.foundation.fml.rt.VirtualModelInstance;
+import org.openflexo.foundation.fml.rt.error.FMLErrorReporter;
+import org.openflexo.foundation.fml.rt.error.FMLExecutionFailure;
+import org.openflexo.foundation.fml.rt.error.FMLStack;
+import org.openflexo.foundation.fml.rt.error.FMLStackFrame;
 import org.openflexo.foundation.fml.rt.logging.FMLLogRecord;
 import org.openflexo.foundation.resource.FlexoResource;
 import org.openflexo.foundation.resource.FlexoResourceCenter;
@@ -565,6 +569,74 @@ public class JsonSerializer {
 			result.add(val);
 		}
 
+		return result;
+	}
+
+	/**
+	 * The JSON answer of a failure of FML (CORE-F-11): {@code kind}, the kind of the failure in English ("Null reference"); {@code key},
+	 * its localization key ({@code fml_null_reference_error}), for a client to translate it; {@code message}, the message of the failure;
+	 * {@code location}, the innermost frame of its FML stack, or null; {@code stack}, all the frames, innermost first. A frame has
+	 * {@code uri} (the compilation unit), {@code line}, {@code column}, {@code behaviour}, {@code concept}, {@code instance} and
+	 * {@code statement}, the absent ones left out.
+	 */
+	public static JsonObject fmlErrorSerializer(Throwable failure) {
+		JsonObject result = new JsonObject();
+		FMLExecutionFailure typed = FMLExecutionFailure.findFailure(failure);
+		Throwable shown = typed instanceof Throwable ? (Throwable) typed : failure;
+		result.put("kind", FMLErrorReporter.kind(failure));
+		result.put("key", FMLErrorReporter.kindKey(failure));
+		result.put("message", shown.getMessage() != null ? shown.getMessage() : shown.getClass().getSimpleName());
+		JsonArray frames = new JsonArray();
+		FMLStack stack = FMLExecutionFailure.findFMLStack(failure);
+		if (stack != null) {
+			for (FMLStackFrame frame : stack.getFrames()) {
+				frames.add(fmlStackFrameSerializer(frame));
+			}
+		}
+		result.put("location", frames.isEmpty() ? null : frames.getJsonObject(0));
+		result.put("stack", frames);
+		result.put("resource_type", "FMLError");
+		return result;
+	}
+
+	/**
+	 * The JSON answer of an action that was not executed because it is not enabled (CORE-F-11): the shape of
+	 * {@link #fmlErrorSerializer(Throwable)}, kind {@code Not enabled}, key {@code fml_not_enabled}, no location
+	 */
+	public static JsonObject fmlNotEnabledSerializer(String message) {
+		JsonObject result = new JsonObject();
+		result.put("kind", "Not enabled");
+		result.put("key", "fml_not_enabled");
+		result.put("message", message);
+		result.put("location", null);
+		result.put("stack", new JsonArray());
+		result.put("resource_type", "FMLError");
+		return result;
+	}
+
+	private static JsonObject fmlStackFrameSerializer(FMLStackFrame frame) {
+		JsonObject result = new JsonObject();
+		if (frame.getCompilationUnitURI() != null) {
+			result.put("uri", frame.getCompilationUnitURI());
+		}
+		if (frame.getLine() > 0) {
+			result.put("line", frame.getLine());
+			if (frame.getColumn() >= 0) {
+				result.put("column", frame.getColumn());
+			}
+		}
+		if (frame.getBehaviour() != null) {
+			result.put("behaviour", frame.getBehaviour());
+		}
+		if (frame.getConceptName() != null) {
+			result.put("concept", frame.getConceptName());
+		}
+		if (frame.getInstance() != null) {
+			result.put("instance", frame.getInstance());
+		}
+		if (frame.getStatement() != null) {
+			result.put("statement", frame.getStatement());
+		}
 		return result;
 	}
 }

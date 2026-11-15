@@ -8,6 +8,7 @@ import org.openflexo.foundation.fml.VirtualModelLibrary;
 import org.openflexo.foundation.fml.cli.CommandInterpreter;
 import org.openflexo.foundation.fml.cli.ParseException;
 import org.openflexo.foundation.fml.cli.command.FMLCommandExecutionException;
+import org.openflexo.foundation.fml.cli.command.FMLInvalidCommandException;
 import org.openflexo.http.server.core.RestTerminal;
 import org.openflexo.http.server.core.repositories.TerminalRepository;
 import org.openflexo.http.server.core.serializers.JsonSerializer;
@@ -138,13 +139,20 @@ public class TerminalController extends GenericController {
                         context.response().end(JsonSerializer.terminalOutputSerializer(output, terminal).encodePrettily());
                     }
                 }
-            } catch (FMLCommandExecutionException | ParseException e) {
+            } catch (FMLInvalidCommandException | ParseException e) {
+                // The command is wrong: a validation error
                 JsonObject error = new JsonObject();
 
                 error.put("command", e.getMessage());
                 errors.add(error);
 
                 badValidation(context, errors);
+            } catch (FMLCommandExecutionException e) {
+                // The command failed: its FML failure, or the failure of the command itself (a failed assertion) (CORE-F-11)
+                fmlError(context, e.getFailure() != null ? e.getFailure() : e);
+            } catch (RuntimeException e) {
+                // A defect of the platform
+                fmlError(context, e);
             }
         } else {
             badValidation(context, errors);

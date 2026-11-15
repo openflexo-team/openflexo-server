@@ -149,7 +149,10 @@ public class VirtualModelInstancesController extends GenericController{
                         }
                     }
 
-                    vmi.doAction();
+                    // A failed creation answers its FML error, and nothing is saved (CORE-F-11)
+                    if (!performAction(context, vmi)) {
+                        return;
+                    }
 
                     try {
                         model.getResource().save();
@@ -263,7 +266,10 @@ public class VirtualModelInstancesController extends GenericController{
                         return;
                     }
                 }
-                action.doAction();
+                // A failed behaviour answers its FML error, and nothing is saved (CORE-F-11)
+                if (!performAction(context, action)) {
+                    return;
+                }
 
                 try {
                     instance.getResource().save();

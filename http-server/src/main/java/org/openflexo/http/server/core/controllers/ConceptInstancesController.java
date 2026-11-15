@@ -104,7 +104,10 @@ public class ConceptInstancesController extends GenericController {
                 action.setCreationScheme(cs);
             }
 
-            action.doAction();
+            // A failed creation answers its FML error, and nothing is saved (CORE-F-11)
+            if (!performAction(context, action)) {
+                return;
+            }
 
             try {
                 validator.getContainer().getResource().save();
