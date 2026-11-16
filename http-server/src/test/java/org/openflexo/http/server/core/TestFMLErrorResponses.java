@@ -202,7 +202,10 @@ public class TestFMLErrorResponses extends AbstractRestTest {
 		execute(vertx, "assert false").onSuccess(res -> context.verify(() -> {
 			Assertions.assertEquals(400, res.statusCode(), res.bodyAsString());
 			JsonObject error = res.bodyAsJsonObject();
-			Assertions.assertEquals("assert failed: false", error.getString("message"));
+			// The failure is an FMLAssertionError (CORE-F-11 phase 7): its message is the condition
+			Assertions.assertEquals("false", error.getString("message"));
+			Assertions.assertEquals("Assertion failed", error.getString("kind"));
+			Assertions.assertEquals("fml_assertion_error", error.getString("key"));
 			context.completeNow();
 		})).onFailure(context::failNow);
 	}

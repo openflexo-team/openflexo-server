@@ -148,7 +148,7 @@ public class TerminalController extends GenericController {
 
                 badValidation(context, errors);
             } catch (FMLCommandExecutionException e) {
-                // The command failed: its FML failure, or the failure of the command itself (a failed assertion) (CORE-F-11)
+                // The command failed: its FML failure (a failed assertion is an FMLAssertionError), or the failure of the command itself (CORE-F-11)
                 fmlError(context, e.getFailure() != null ? e.getFailure() : e);
             } catch (RuntimeException e) {
                 // A defect of the platform
