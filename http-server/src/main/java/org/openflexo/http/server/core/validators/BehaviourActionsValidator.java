@@ -50,10 +50,19 @@ public class BehaviourActionsValidator extends GenericValidator {
                 }
             }
         } else {
+            // An argument is designated by its name; this.name designates a property hidden by an argument of the same name
+            if(!side.startsWith("this.")){
+                for (FlexoBehaviourArgument parameter: behaviour.getParameters()){
+                    if(parameter.getName().equals(side)){
+                        return side;
+                    }
+                }
+            }
+            String propertyName = side.startsWith("this.") ? side.substring("this.".length()) : side;
             // TODO: check parent concept's properties
             for (FlexoProperty property: behaviour.getFlexoConcept().getFlexoProperties()) {
 
-                if(property.getPropertyName().equals(side)){
+                if(property.getPropertyName().equals(propertyName)){
                     return side;
                 }
             }
