@@ -4,7 +4,7 @@ import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.openflexo.connie.type.PrimitiveType;
-import org.openflexo.foundation.FlexoException;
+import org.openflexo.foundation.OpenflexoRuntimeException;
 import org.openflexo.foundation.fml.FlexoConcept;
 import org.openflexo.foundation.fml.PropertyCardinality;
 import org.openflexo.foundation.fml.VirtualModel;
@@ -120,7 +120,7 @@ public class PropertiesValidator extends GenericValidator {
                 } else {
                     return model.getResource();
                 }
-            } catch (ResourceLoadingCancelledException | FlexoException | FileNotFoundException e){
+            } catch (ResourceLoadingCancelledException | OpenflexoRuntimeException | FileNotFoundException e){
                 throw new BadValidationException("Invalid value");
             }
         }

@@ -3,7 +3,7 @@ package org.openflexo.http.server.core.controllers;
 import java.io.FileNotFoundException;
 
 import org.openflexo.foundation.DefaultFlexoEditor;
-import org.openflexo.foundation.FlexoException;
+import org.openflexo.foundation.OpenflexoRuntimeException;
 import org.openflexo.foundation.FlexoProject;
 import org.openflexo.foundation.fml.FMLCompilationUnit;
 import org.openflexo.foundation.fml.FMLTechnologyAdapter;

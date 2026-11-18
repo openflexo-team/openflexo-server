@@ -3,7 +3,7 @@ package org.openflexo.http.server.core.controllers;
 import io.vertx.core.json.JsonArray;
 import io.vertx.ext.web.RoutingContext;
 import org.openflexo.foundation.DefaultFlexoEditor;
-import org.openflexo.foundation.FlexoException;
+import org.openflexo.foundation.OpenflexoRuntimeException;
 import org.openflexo.foundation.fml.*;
 import org.openflexo.foundation.fml.action.CreateFlexoConcept;
 import org.openflexo.foundation.fml.action.DeleteFlexoConceptObjects;

@@ -3,7 +3,7 @@ package org.openflexo.http.server.core.validators;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import org.openflexo.foundation.FlexoException;
+import org.openflexo.foundation.OpenflexoRuntimeException;
 import org.openflexo.foundation.fml.VirtualModelLibrary;
 import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
 import org.openflexo.http.server.core.exceptions.BadValidationException;
@@ -52,7 +52,7 @@ public class VirtualModelInstancesValidator extends GenericValidator{
                 } else {
                     return id;
                 }
-            } catch (ResourceLoadingCancelledException | FlexoException | FileNotFoundException e){
+            } catch (ResourceLoadingCancelledException | OpenflexoRuntimeException | FileNotFoundException e){
                 throw new BadValidationException("Invalid value");
             }
         }

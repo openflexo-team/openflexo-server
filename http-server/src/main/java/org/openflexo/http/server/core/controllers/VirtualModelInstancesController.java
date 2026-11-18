@@ -4,7 +4,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import org.openflexo.foundation.DefaultFlexoEditor;
-import org.openflexo.foundation.FlexoException;
+import org.openflexo.foundation.OpenflexoRuntimeException;
 import org.openflexo.foundation.FlexoProject;
 import org.openflexo.foundation.fml.*;
 import org.openflexo.foundation.fml.rt.FMLRTVirtualModelInstance;

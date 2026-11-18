@@ -9,7 +9,7 @@ import io.vertx.ext.web.RoutingContext;
 import jline.internal.Log;
 import org.openflexo.foundation.DefaultFlexoEditor;
 import org.openflexo.foundation.FlexoEditor;
-import org.openflexo.foundation.FlexoException;
+import org.openflexo.foundation.OpenflexoRuntimeException;
 import org.openflexo.foundation.FlexoProject;
 import org.openflexo.foundation.action.AddRepositoryFolder;
 import org.openflexo.foundation.action.CreateProject;
@@ -277,7 +277,7 @@ public class ProjectsController extends GenericController {
                 try {
                     resource.loadResourceData();
                     loaded.add(JsonSerializer.getResourceDescription(resource, technologyAdapterRestService));
-                } catch (ResourceLoadingCancelledException | FileNotFoundException | FlexoException e) {
+                } catch (ResourceLoadingCancelledException | FileNotFoundException | OpenflexoRuntimeException e) {
                     failed.add(JsonSerializer.getResourceDescription(resource, technologyAdapterRestService));
                 }
             }

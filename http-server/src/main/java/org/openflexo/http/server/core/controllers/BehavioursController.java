@@ -5,7 +5,7 @@ import io.vertx.ext.web.RoutingContext;
 import org.openflexo.connie.Bindable;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.foundation.DefaultFlexoEditor;
-import org.openflexo.foundation.FlexoException;
+import org.openflexo.foundation.OpenflexoRuntimeException;
 import org.openflexo.foundation.fml.*;
 import org.openflexo.foundation.fml.action.*;
 import org.openflexo.foundation.fml.editionaction.*;
@@ -129,7 +129,7 @@ public class BehavioursController extends GenericController {
 
         try {
             model = virtualModelLibrary.getVirtualModel(IdUtils.decodeId(modelId));
-        } catch (FileNotFoundException | ResourceLoadingCancelledException | FlexoException e) {
+        } catch (FileNotFoundException | ResourceLoadingCancelledException | OpenflexoRuntimeException e) {
             notFound(context);
             return;
         }

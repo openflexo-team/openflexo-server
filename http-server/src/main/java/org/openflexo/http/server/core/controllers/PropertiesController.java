@@ -3,7 +3,7 @@ package org.openflexo.http.server.core.controllers;
 import java.io.FileNotFoundException;
 
 import org.openflexo.foundation.DefaultFlexoEditor;
-import org.openflexo.foundation.FlexoException;
+import org.openflexo.foundation.OpenflexoRuntimeException;
 import org.openflexo.foundation.fml.FlexoConcept;
 import org.openflexo.foundation.fml.FlexoConceptInstanceRole;
 import org.openflexo.foundation.fml.FlexoProperty;
@@ -154,7 +154,7 @@ public class PropertiesController extends GenericController {
 			model.getResource().save();
 
 			emptyResponse(context);
-		} catch (FileNotFoundException | ResourceLoadingCancelledException | FlexoException e) {
+		} catch (FileNotFoundException | ResourceLoadingCancelledException | OpenflexoRuntimeException e) {
 			notFound(context);
 		}
 	}
