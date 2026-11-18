@@ -6,6 +6,8 @@ Known bugs, not fixed yet. Identifiers `SERVER-D-<n>`, never reused; fixed entri
 
 ### SERVER-D-1 — The edits of a failed FML action stay in memory, and the next successful request saves them  ·  `TODO`
 
+**GitHub:** [openflexo-team/openflexo-server#1](https://github.com/openflexo-team/openflexo-server/issues/1)
+
 **Symptom (traced by the review of CORE-F-11 phase 5, 2026-11-15; read, not run).** Since CORE-F-11 phase 5 a failing action
 (`GenericController.performAction`: creating a concept instance, a virtual model instance, running a behaviour) answers its FML error
 and saves nothing. But the editor of the server (`Helpers.getDefaultFlexoEditor`, a `DefaultFlexoEditor`) has no undo manager: a
