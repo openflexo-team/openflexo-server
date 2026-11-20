@@ -45,7 +45,7 @@ public class ConceptsController extends GenericController {
             VirtualModel model  = virtualModelLibrary.getVirtualModel(IdUtils.decodeId(id));
             JsonArray result    = new JsonArray();
 
-            for (FlexoConcept concept : model.getFlexoConcepts()) {
+            for (FlexoConcept concept : model.getAllFlexoConcepts()) {
                 result.add(JsonSerializer.conceptSerializer(concept));
             }
 

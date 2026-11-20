@@ -150,7 +150,7 @@ public class FMLJsonComplement implements JsonComplement {
 		} else*/ if (object instanceof VirtualModel) {
 			VirtualModel model = (VirtualModel) object;
 			describeFlexoConcept(serializer, model, result, detailed);			
-			result.put("flexoConcepts", serializer.toReferenceArray(model.getFlexoConcepts()));
+			result.put("flexoConcepts", serializer.toReferenceArray(model.getAllFlexoConcepts()));
 			
 			if (object instanceof FlexoEnum) {
 				FlexoEnum flexoEnum = (FlexoEnum) object;

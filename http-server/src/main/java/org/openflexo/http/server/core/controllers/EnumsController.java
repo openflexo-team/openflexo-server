@@ -48,7 +48,7 @@ public class EnumsController extends GenericController {
             VirtualModel model  = virtualModelLibrary.getVirtualModel(IdUtils.decodeId(id));
             JsonArray result    = new JsonArray();
 
-            for (FlexoConcept fEnum : model.getFlexoConcepts()) {
+            for (FlexoConcept fEnum : model.getAllFlexoConcepts()) {
                 if(fEnum instanceof FlexoEnum){
                     result.add(JsonSerializer.enumSerializer(fEnum));
                 }
