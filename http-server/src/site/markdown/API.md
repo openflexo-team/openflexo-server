@@ -6,7 +6,6 @@ The OpenFlexo's HTTP server provides a REST API to access:
 - resources in all resources centers
 - apis from technology adapters:
 	- federated models `FML`/`FML-RT` 
-	- gina views `Gina`
 	- diagrams `Diana`
 
 It also provides a WebSocket API to handle connie expressions and updates the server.
@@ -240,13 +239,6 @@ Example results for `/ta`:
   "activated" : true,
   "url" : "/ta/xls",
   "complemented" : false
-}, {
-  "name" : "GINA Technology Adapter",
-  "type" : "TechnologyAdapter",
-  "id" : "gina",
-  "activated" : true,
-  "url" : "/ta/gina",
-  "complemented" : false
 } ]
 ```
 
@@ -475,156 +467,6 @@ Example results for `/ta/fmlrt/instance` ([server][10]):
   "roleName" : "name"
 }, ... ]
 ```
-## Gina
-
-The Gina complement adds the route `/ta/gina/fib` to list all fib components found in the resource centers.
-
-**Note**: The TypeScript definition file for the Fib Components is 
-[here][13].
-
-- Get on **`/ta/gina/fib`** lists of all virtual models in all resource centers.
-
-Example results for `/ta/gina/fib` ([server][14]):
-
-```json
-[ {
-  "name" : "DemoUI.fib",
-  "type" : "Resource",
-  "uri" : "http://www.openflexo.org/projects/2017/9/Untitled_1505918219989/DemoUI.fib",
-  "id" : "aHR0cDovL3d3dy5vcGVuZmxleG8ub3JnL3Byb2plY3RzLzIwMTcvOS9VbnRpdGxlZF8xNTA1OTE4MjE5OTg5L0RlbW9VSS5maWI",
-  "modified" : false,
-  "loaded" : true,
-  "resourceCenterId" : "aHR0cDovL3d3dy5vcGVuZmxleG8ub3JnL3Byb2plY3RzLzIwMTcvOS9VbnRpdGxlZF8xNTA1OTE4MjE5OTg5",
-  "resourceCenterUrl" : "/rc/aHR0cDovL3d3dy5vcGVuZmxleG8ub3JnL3Byb2plY3RzLzIwMTcvOS9VbnRpdGxlZF8xNTA1OTE4MjE5OTg5",
-  "url" : "/resource/aHR0cDovL3d3dy5vcGVuZmxleG8ub3JnL3Byb2plY3RzLzIwMTcvOS9VbnRpdGxlZF8xNTA1OTE4MjE5OTg5L0RlbW9VSS5maWI",
-  "contentUrl" : "/resource/aHR0cDovL3d3dy5vcGVuZmxleG8ub3JnL3Byb2plY3RzLzIwMTcvOS9VbnRpdGxlZF8xNTA1OTE4MjE5OTg5L0RlbW9VSS5maWI/contents",
-  "technologyAdapterId" : "gina",
-  "technologyAdapterUrl" : "/ta/gina",
-  "modelUrl" : "/ta/gina/fib/aHR0cDovL3d3dy5vcGVuZmxleG8ub3JnL3Byb2plY3RzLzIwMTcvOS9VbnRpdGxlZF8xNTA1OTE4MjE5OTg5L0RlbW9VSS5maWI/object/1",
-  "objectsUrl" : "/ta/gina/fib/aHR0cDovL3d3dy5vcGVuZmxleG8ub3JnL3Byb2plY3RzLzIwMTcvOS9VbnRpdGxlZF8xNTA1OTE4MjE5OTg5L0RlbW9VSS5maWI/object"
-} ]
-```
-
-- Get on **`/ta/gina/fib/{fib_id}`** retrieves information for one model with given id ([server][15]).
-
-- Get on **`/ta/gina/fib/{fib_id}/object`** retrieves all objects from model ([server][16])
-
-- Get on **`/ta/gina/fib/{fib_id}/object/1`** retrieves object id `1` objects from model ([server][17])
-
-```json
-{
-  "id" : "1",
-  "url" : "/ta/gina/fib/aHR0cDovL3d3dy5vcGVuZmxleG8ub3JnL3Byb2plY3RzLzIwMTcvOS9VbnRpdGxlZF8xNTA1OTE4MjE5OTg5L0RlbW9VSS5maWI/object/1",
-  "type" : "GINAFIBComponent",
-  "resourceUrl" : "/resource/aHR0cDovL3d3dy5vcGVuZmxleG8ub3JnL3Byb2plY3RzLzIwMTcvOS9VbnRpdGxlZF8xNTA1OTE4MjE5OTg5L0RlbW9VSS5maWI",
-  "component" : {
-    "type" : "Panel",
-    "align" : "left",
-    "borderTop" : 0,
-    "borderLeft" : 0,
-    "trackViewPortHeight" : true,
-    "protectContent" : false,
-    "trackViewPortWidth" : true,
-    "borderBottom" : 0,
-    "border" : "empty",
-    "sizeAdjustment" : "OriginalSize",
-    "darkLevel" : 0,
-    "layout" : "border",
-    "borderRight" : 0,
-    "data" : "data",
-    "dataClassName" : "org.openflexo.foundation.fml.rt.FMLRTVirtualModelInstance",
-    "subComponents" : [ {
-      "type" : "TabPanel",
-      "restrictPreferredSizeToSelectedComponent" : false,
-      "subComponents" : [ {
-        "type" : "Tab",
-        "title" : "Tab",
-        "align" : "left",
-        "borderTop" : 0,
-        "borderLeft" : 0,
-        "trackViewPortHeight" : true,
-        "protectContent" : false,
-        "trackViewPortWidth" : true,
-        "borderBottom" : 0,
-        "border" : "empty",
-        "sizeAdjustment" : "OriginalSize",
-        "darkLevel" : 0,
-        "layout" : "twocols",
-        "borderRight" : 0,
-        "subComponents" : [ {
-          "type" : "Label",
-          "label" : "label",
-          "align" : "left",
-          "trimText" : false,
-          "localize" : false,
-          "manageDynamicModel" : false,
-          "readOnly" : false,
-          "data" : "(\"Size \" + data.root.getChildren().size)",
-          "useScrollBar" : false,
-          "parent" : {
-            "type" : "Tab"
-          },
-          "constraints" : "twocols(expandHorizontally=true;expandVertically=false;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)",
-          "controllerClass" : "org.openflexo.gina.controller.FIBController",
-          "variables" : [ ],
-          "explicitDependancies" : [ ],
-          "name" : "label1",
-          "parameters" : [ ]
-        }, {
-          "type" : "TextField",
-          "passwd" : false,
-          "columns" : 7,
-          "validateOnReturn" : false,
-          "localize" : false,
-          "manageDynamicModel" : false,
-          "readOnly" : false,
-          "data" : "data.root.name",
-          "useScrollBar" : false,
-          "parent" : {
-            "type" : "Tab"
-          },
-          "constraints" : "twocols(expandHorizontally=true;expandVertically=false;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)",
-          "controllerClass" : "org.openflexo.gina.controller.FIBController",
-          "variables" : [ ],
-          "explicitDependancies" : [ ],
-          "name" : "textField1",
-          "parameters" : [ ]
-        } ],
-        "useScrollBar" : false,
-        "parent" : {
-          "type" : "TabPanel"
-        },
-        "controllerClass" : "org.openflexo.gina.controller.FIBController",
-        "variables" : [ ],
-        "explicitDependancies" : [ ],
-        "name" : "tab1",
-        "parameters" : [ ]
-      } ],
-      "useScrollBar" : false,
-      "parent" : {
-        "type" : "Panel"
-      },
-      "constraints" : "border(location=center)",
-      "height" : 60,
-      "controllerClass" : "org.openflexo.gina.controller.FIBController",
-      "variables" : [ ],
-      "explicitDependancies" : [ ],
-      "width" : 100,
-      "name" : "rootTabPanel",
-      "parameters" : [ ]
-    } ],
-    "useScrollBar" : false,
-    "controllerClass" : "org.openflexo.gina.controller.FIBController",
-    "variables" : [ {
-      "type" : "FIBVariable"
-    } ],
-    "explicitDependancies" : [ ],
-    "name" : "rootPanel",
-    "parameters" : [ ]
-  }
-}
-```
-
 ## Diana
 
 Diana complement isn't implemented yet.
@@ -642,8 +484,3 @@ Diana complement isn't implemented yet.
 [10]:	https://server.openflexo.org/ta/fmlrt/instance
 [11]:	https://server.openflexo.org/resource/aHR0cDovL3d3dy5vcGVuZmxleG8ub3JnL3Byb2plY3RzLzIwMTcvOS9VbnRpdGxlZF8xNTA1OTE4MjE5OTg5L2RlbW8uZm1sLnJ0
 [12]:	https://server.openflexo.org/ta/fmlrt/instance/aHR0cDovL3d3dy5vcGVuZmxleG8ub3JnL3Byb2plY3RzLzIwMTcvOS9VbnRpdGxlZF8xNTA1OTE4MjE5OTg5L2RlbW8uZm1sLnJ0/object
-[13]:	https://github.com/openflexo-team/openflexo-http/blob/1.9.0/http-server/src/main/resources/webroot/js/openflexo/api/fib.d.ts
-[14]:	https://server.openflexo.org/ta/gina/fib
-[15]:	https://server.openflexo.org/resource/aHR0cDovL3d3dy5vcGVuZmxleG8ub3JnL3Byb2plY3RzLzIwMTcvOS9VbnRpdGxlZF8xNTA1OTE4MjE5OTg5L0RlbW9VSS5maWI
-[16]:	https://server.openflexo.org/ta/gina/fib/aHR0cDovL3d3dy5vcGVuZmxleG8ub3JnL3Byb2plY3RzLzIwMTcvOS9VbnRpdGxlZF8xNTA1OTE4MjE5OTg5L0RlbW9VSS5maWI/object
-[17]:	https://server.openflexo.org/ta/gina/fib/aHR0cDovL3d3dy5vcGVuZmxleG8ub3JnL3Byb2plY3RzLzIwMTcvOS9VbnRpdGxlZF8xNTA1OTE4MjE5OTg5L0RlbW9VSS5maWI/object/1

@@ -39,8 +39,6 @@ dependencies {
     compile "org.openflexo:docxconnector:${openflexo_version}"
     compile "org.openflexo:excelconnector:${openflexo_version}"
     compile "org.openflexo:pdfconnector:${openflexo_version}"
-
-    compile "org.openflexo:gina-http:${openflexo_version}"
  
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

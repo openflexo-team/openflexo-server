@@ -1,8 +1,0 @@
-dependencies {
-    implementation project(':http-server')
-    implementation flexoFoundation()
-
-    implementation ginaConnector()
-
-    testImplementation flexoFoundationTest()
-}
